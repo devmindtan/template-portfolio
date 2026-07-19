@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE HYPE | Marketing Student</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        headline: ['Anton', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        hype: {
+                            neon: '#CCFF00', // Acid Green
+                            dark: '#0a0a0a',
+                            gray: '#222222'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Marquee Animation */
+        .marquee-wrapper {
+            white-space: nowrap;
+            overflow: hidden;
+            display: flex;
+        }
+        .marquee {
+            animation: marquee 20s linear infinite;
+            display: inline-flex;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Background Image Reveal System */
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out, transform 0.8s ease-out;
+            transform: scale(1.05);
+            z-index: -1;
+            filter: brightness(0.3) grayscale(50%);
+        }
+        
+        .bg-layer.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Hoverable Project Items */
+        .project-item {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+        .project-item:hover {
+            color: #CCFF00;
+            -webkit-text-stroke: 0px;
+            transform: translateX(20px);
+        }
+
+        /* Magnetic Button Base */
+        .magnetic-btn {
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.1s;
+        }
+        .magnetic-btn span {
+            pointer-events: none;
+            transition: transform 0.2s;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-hype-neon selection:text-black">
+
+    <!-- Background Images for Hover Effect (JS controlled) -->
+    <div id="bg-default" class="bg-layer active" style="background-image: url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+    <div id="bg-proj1" class="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+    <div id="bg-proj2" class="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1542744094-24638ea0b3b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+    <div id="bg-proj3" class="bg-layer" style="background-image: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+
+    <div class="fixed inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/90 pointer-events-none z-0"></div>
+
+    <!-- Top Marquee -->
+    <div class="marquee-wrapper bg-hype-neon text-black font-headline text-2xl py-2 uppercase tracking-widest relative z-10 -rotate-1 origin-left transform scale-105 shadow-xl">
+        <div class="marquee gap-8 pr-8">
+            <span>🚀 MARKETING STUDENT 2026</span>
+            <span>✦ CREATIVE PLANNER</span>
+            <span>✦ CAMPAIGN CREATOR</span>
+            <span>✦ BRAND STRATEGY</span>
+            <span>🚀 MARKETING STUDENT 2026</span>
+            <span>✦ CREATIVE PLANNER</span>
+            <span>✦ CAMPAIGN CREATOR</span>
+            <span>✦ BRAND STRATEGY</span>
+        </div>
+        <!-- Duplicate for seamless loop -->
+        <div class="marquee gap-8 pr-8">
+            <span>🚀 MARKETING STUDENT 2026</span>
+            <span>✦ CREATIVE PLANNER</span>
+            <span>✦ CAMPAIGN CREATOR</span>
+            <span>✦ BRAND STRATEGY</span>
+            <span>🚀 MARKETING STUDENT 2026</span>
+            <span>✦ CREATIVE PLANNER</span>
+            <span>✦ CAMPAIGN CREATOR</span>
+            <span>✦ BRAND STRATEGY</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 relative z-10 flex flex-col justify-between p-6 md:p-12">
+        
+        <!-- Header -->
+        <header class="flex justify-between items-start mt-8">
+            <div>
+                <h2 class="font-bold text-sm tracking-widest text-hype-neon uppercase">Dự án môn học / Đồ án tốt nghiệp</h2>
+                <h1 class="font-headline text-5xl md:text-7xl uppercase mt-2 leading-none">VŨ SINH<br>VIÊN</h1>
+            </div>
+            <div class="text-right">
+                <p class="font-bold text-xl">GPA: 3.8/4.0</p>
+                <p class="text-sm text-gray-400">ĐH Kinh Tế - Khoa Marketing</p>
+            </div>
+        </header>
+
+        <!-- Interactive Project List -->
+        <div class="my-16 md:my-0">
+            <p class="text-sm font-bold uppercase tracking-widest mb-4 border-b border-white/20 pb-2 inline-block">Hover để xem các chiến dịch ↴</p>
+            <ul class="flex flex-col gap-2 md:gap-4 font-headline text-5xl md:text-7xl lg:text-[100px] uppercase leading-none">
+                <li class="project-item cursor-pointer block" data-target="bg-proj1">01. GEN-Z INSIGHT</li>
+                <li class="project-item cursor-pointer block" data-target="bg-proj2">02. VIRAL TIKTOK</li>
+                <li class="project-item cursor-pointer block" data-target="bg-proj3">03. RE-BRANDING</li>
+            </ul>
+        </div>
+
+        <!-- Footer / CTA -->
+        <footer class="flex flex-col md:flex-row items-end justify-between gap-8 border-t border-white/20 pt-8 mt-12 md:mt-0">
+            <div class="max-w-sm">
+                <p class="text-sm text-gray-300">
+                    "Em không chỉ học thuộc lý thuyết từ sách Kotler. Em thích mang dữ liệu ra thực chiến và làm content khiến người khác phải chia sẻ."
+                </p>
+                <div class="flex gap-4 mt-4 text-xl">
+                    <a href="#" class="hover:text-hype-neon transition-colors"><i class="ph-fill ph-behance-logo"></i></a>
+                    <a href="#" class="hover:text-hype-neon transition-colors"><i class="ph-fill ph-linkedin-logo"></i></a>
+                </div>
+            </div>
+            
+            <!-- Interactive Magnetic Button -->
+            <button class="magnetic-btn bg-hype-neon text-black font-headline text-2xl uppercase px-10 py-5 rounded-full hover:bg-white transition-colors duration-300 shadow-[0_0_30px_rgba(204,255,0,0.3)]">
+                <span>TUYỂN EM NGAY! <i class="ph-fill ph-rocket-launch"></i></span>
+            </button>
+        </footer>
+
+    </main>
+
+    <!-- Javascript for Interactions -->
+    <script>
+        // 1. Background Hover Interaction
+        const projectItems = document.querySelectorAll('.project-item');
+        const bgLayers = document.querySelectorAll('.bg-layer');
+
+        projectItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const targetId = item.getAttribute('data-target');
+                // Hide all
+                bgLayers.forEach(layer => layer.classList.remove('active'));
+                // Show target
+                document.getElementById(targetId).classList.add('active');
+            });
+
+            item.addEventListener('mouseleave', () => {
+                // Reset to default
+                bgLayers.forEach(layer => layer.classList.remove('active'));
+                document.getElementById('bg-default').classList.add('active');
+            });
+        });
+
+        // 2. Magnetic Button Effect
+        const magneticBtns = document.querySelectorAll('.magnetic-btn');
+
+        magneticBtns.forEach(btn => {
+            const text = btn.querySelector('span');
+            
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const h = rect.width / 2;
+                
+                const x = e.clientX - rect.left - h;
+                const y = e.clientY - rect.top - h;
+
+                // Move button slightly
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                // Move text slightly more for parallax
+                text.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                // Reset positions
+                btn.style.transform = 'translate(0px, 0px)';
+                text.style.transform = 'translate(0px, 0px)';
+            });
+        });
+    </script>
+</body>
+</html>

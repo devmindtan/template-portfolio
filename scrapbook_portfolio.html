@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Scrapbook | Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Montserrat:wght@800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        handwriting: ['Caveat', 'cursive'],
+                        headline: ['Montserrat', 'sans-serif'],
+                        sans: ['"Space Grotesk"', 'sans-serif'],
+                    },
+                    colors: {
+                        paper: '#f5f4ef',
+                        accent: { blue: '#2563eb', yellow: '#fde047', pink: '#f472b6' }
+                    },
+                    boxShadow: {
+                        'polaroid': '0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+                        'paper': '2px 4px 12px rgba(0,0,0,0.08)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #f5f4ef;
+            overflow: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        .parallax-layer {
+            position: absolute;
+            transition: transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+            will-change: transform;
+        }
+
+        /* Polaroid styling */
+        .polaroid {
+            background: white;
+            padding: 12px 12px 40px 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, z-index 0s;
+            cursor: pointer;
+        }
+        .polaroid:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            z-index: 50 !important;
+        }
+
+        /* Torn paper edge effect */
+        .torn-paper {
+            background: white;
+            position: relative;
+            padding: 1rem;
+            box-shadow: 2px 4px 12px rgba(0,0,0,0.08);
+        }
+        .torn-paper::before, .torn-paper::after {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; height: 10px;
+            background-size: 20px 20px;
+        }
+        .torn-paper::before {
+            top: -10px;
+            background-image: radial-gradient(circle at 10px 15px, white 12px, transparent 13px);
+        }
+        .torn-paper::after {
+            bottom: -10px;
+            background-image: radial-gradient(circle at 10px -5px, white 12px, transparent 13px);
+        }
+
+        /* Tape */
+        .tape {
+            background-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            width: 100px;
+            height: 25px;
+            position: absolute;
+            backdrop-filter: blur(2px);
+        }
+    </style>
+</head>
+<body class="h-screen w-full relative flex items-center justify-center font-sans text-gray-800 selection:bg-accent-yellow selection:text-black" id="scene">
+
+    <!-- LAYER 1: Background Elements (Slowest) -->
+    <div class="parallax-layer w-full h-full inset-0 z-0" data-speed="0.02">
+        <div class="absolute top-[10%] left-[15%] w-64 h-64 bg-accent-yellow rounded-full mix-blend-multiply filter blur-3xl opacity-40"></div>
+        <div class="absolute bottom-[20%] right-[10%] w-80 h-80 bg-accent-blue rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+        
+        <!-- Big background text -->
+        <div class="absolute top-[20%] left-[-5%] font-headline text-[150px] text-gray-200 opacity-50 transform -rotate-6 select-none pointer-events-none">CREATIVE</div>
+        <div class="absolute bottom-[10%] right-[-10%] font-headline text-[150px] text-gray-200 opacity-50 transform rotate-3 select-none pointer-events-none">STUDENT</div>
+    </div>
+
+    <!-- LAYER 2: Midground Elements (Notes & Doodles) -->
+    <div class="parallax-layer w-full h-full inset-0 z-10" data-speed="0.05">
+        
+        <!-- Sticky Note 1 -->
+        <div class="absolute top-[15%] right-[25%] bg-accent-pink/30 p-4 transform rotate-12 shadow-paper w-48 hover:scale-110 transition-transform cursor-pointer">
+            <div class="tape -top-3 left-4 transform rotate-[-5deg]"></div>
+            <p class="font-handwriting text-2xl font-bold text-pink-700">"Design is thinking made visual."</p>
+        </div>
+
+        <!-- Sticky Note 2 -->
+        <div class="absolute bottom-[15%] left-[20%] bg-accent-yellow p-4 transform -rotate-6 shadow-paper w-40 hover:scale-110 transition-transform cursor-pointer">
+            <h3 class="font-bold text-sm mb-2 underline">To-do List:</h3>
+            <ul class="font-handwriting text-xl leading-tight">
+                <li><i class="ph ph-check-square"></i> Viral Idea</li>
+                <li><i class="ph ph-check-square"></i> Capcut Edit</li>
+                <li><i class="ph ph-square"></i> A+ Đồ án</li>
+            </ul>
+        </div>
+
+        <!-- Torn Paper Section -->
+        <div class="absolute top-[40%] left-[5%] transform -rotate-3 w-48">
+            <div class="torn-paper">
+                <h3 class="font-headline text-xl text-accent-blue mb-1">SKILLS</h3>
+                <ul class="text-sm font-bold space-y-1 text-gray-600">
+                    <li>✦ Content Writing</li>
+                    <li>✦ Video Editing</li>
+                    <li>✦ Graphic Design</li>
+                    <li>✦ Seeding</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Chat Bubbles -->
+        <div class="absolute bottom-[30%] right-[15%] flex flex-col gap-2">
+            <div class="bg-blue-500 text-white px-4 py-2 rounded-2xl rounded-br-sm shadow-md text-sm self-end transform rotate-3">
+                Idea này cháy quá em ơi! 🔥
+            </div>
+            <div class="bg-white text-gray-800 px-4 py-2 rounded-2xl rounded-bl-sm shadow-md text-sm self-start border border-gray-100 transform -rotate-2">
+                Dạ em thức 2 đêm để làm đó sếp 🥺
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYER 3: Foreground Main Elements (Fastest) -->
+    <div class="parallax-layer w-full h-full inset-0 z-20 flex items-center justify-center pointer-events-none" data-speed="0.08">
+        
+        <!-- Main Portrait Cutout -->
+        <!-- Note: A cutout image with transparent background works best here -->
+        <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Student Portrait" class="h-[70vh] object-cover pointer-events-auto filter drop-shadow-2xl z-20 rounded-lg">
+        
+        <!-- Interactive Polaroids overlapping the portrait -->
+        <div class="absolute top-[25%] left-[30%] polaroid transform -rotate-12 pointer-events-auto" style="width: 200px;">
+            <div class="tape -top-3 left-1/2 transform -translate-x-1/2 rotate-2"></div>
+            <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Project 1" class="w-full h-32 object-cover mb-2 filter grayscale">
+            <p class="font-handwriting text-xl text-center text-gray-800 font-bold">Campaign X</p>
+        </div>
+
+        <div class="absolute bottom-[20%] right-[25%] polaroid transform rotate-12 pointer-events-auto" style="width: 220px;">
+            <div class="tape -top-3 right-4 transform rotate-[-8deg]"></div>
+            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Project 2" class="w-full h-32 object-cover mb-2 filter grayscale contrast-125">
+            <p class="font-handwriting text-xl text-center text-accent-blue font-bold">Tiktok Viral</p>
+        </div>
+
+        <!-- Floating Badge/Button -->
+        <a href="#" class="absolute bottom-[10%] left-[45%] transform -translate-x-1/2 pointer-events-auto bg-black text-white font-headline px-8 py-4 rounded-full text-xl hover:scale-110 hover:bg-accent-blue transition-all duration-300 shadow-2xl flex items-center gap-2 group">
+            TUYỂN EM ĐI! <i class="ph-bold ph-arrow-right group-hover:translate-x-2 transition-transform"></i>
+        </a>
+
+        <!-- Doodle/Scribble SVG -->
+        <svg class="absolute top-[15%] right-[40%] w-24 h-24 text-accent-yellow transform -rotate-12 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4">
+            <path d="M10 50 Q 30 10, 50 50 T 90 50" stroke-linecap="round" fill="none"/>
+            <path d="M80 40 L 90 50 L 80 60" stroke-linecap="round" fill="none"/>
+        </svg>
+    </div>
+
+    <!-- Title Overlay (Fixed UI) -->
+    <div class="fixed top-6 left-8 z-50 pointer-events-none">
+        <h1 class="font-headline text-4xl uppercase tracking-tighter leading-none text-gray-900 drop-shadow-md">
+            LÊ SÁNG TẠO<br>
+            <span class="text-lg tracking-widest text-gray-600 font-sans">CONTENT CREATOR</span>
+        </h1>
+    </div>
+
+    <script>
+        // Parallax Effect Logic
+        document.addEventListener("mousemove", parallax);
+
+        function parallax(e) {
+            const layers = document.querySelectorAll(".parallax-layer");
+            
+            // Calculate mouse position relative to center of screen
+            const x = (e.clientX - window.innerWidth / 2);
+            const y = (e.clientY - window.innerHeight / 2);
+
+            layers.forEach(layer => {
+                const speed = layer.getAttribute("data-speed");
+                // Inverse movement for cooler effect
+                const xPos = -(x * speed);
+                const yPos = -(y * speed);
+                
+                layer.style.transform = `translate(${xPos}px, ${yPos}px)`;
+            });
+        }
+    </script>
+</body>
+</html>

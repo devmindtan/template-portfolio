@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 98 | Trần Dev</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        pixel: ['"Pixelify Sans"', 'sans-serif'],
+                        sans: ['Tahoma', 'Arial', 'sans-serif'], // Standard Win98 UI font
+                    },
+                    colors: {
+                        win: {
+                            bg: '#008080',       // Teal desktop background
+                            gray: '#c0c0c0',     // Window background
+                            blue: '#000080',     // Title bar active
+                            dark: '#0a0a0a',     // Border dark
+                            light: '#ffffff'     // Border light
+                        }
+                    },
+                    boxShadow: {
+                        'win-out': 'inset 1px 1px 0px 1px #fff, inset -1px -1px 0px 1px #0a0a0a, inset 2px 2px 0px 1px #dfdfdf, inset -2px -2px 0px 1px #808080',
+                        'win-in': 'inset 1px 1px 0px 1px #808080, inset -1px -1px 0px 1px #fff, inset 2px 2px 0px 1px #0a0a0a, inset -2px -2px 0px 1px #dfdfdf',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            overflow: hidden; /* Prevent scrolling, it's a desktop */
+        }
+        
+        /* Win98 Button styling */
+        .btn-win {
+            background-color: #c0c0c0;
+            box-shadow: inset 1px 1px 0px 1px #fff, inset -1px -1px 0px 1px #0a0a0a;
+            cursor: default;
+        }
+        .btn-win:active {
+            box-shadow: inset 1px 1px 0px 1px #0a0a0a, inset -1px -1px 0px 1px #fff;
+            padding-top: 2px;
+            padding-left: 2px;
+        }
+
+        /* Scrollbar styling for textarea */
+        ::-webkit-scrollbar { width: 16px; }
+        ::-webkit-scrollbar-track { background: #dfdfdf; box-shadow: inset 1px 1px 0px #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #c0c0c0; box-shadow: inset 1px 1px 0px #fff, inset -1px -1px 0px #0a0a0a; }
+
+        /* Draggable visual cue */
+        .title-bar { cursor: move; }
+        
+        /* Pixel art rendering for images */
+        .pixelated { image-rendering: pixelated; }
+    </style>
+</head>
+<body class="bg-win-bg h-screen w-full relative font-sans text-sm text-black selection:bg-win-blue selection:text-white select-none">
+
+    <!-- DESKTOP ICONS -->
+    <div class="absolute top-4 left-4 flex flex-col gap-6 w-24">
+        <!-- Icon 1 -->
+        <div class="flex flex-col items-center gap-1 cursor-pointer group">
+            <i class="ph-fill ph-computer-tower text-4xl text-white group-active:text-win-blue"></i>
+            <span class="text-white bg-win-blue px-1 font-pixel text-xs tracking-wider">My_PC</span>
+        </div>
+        <!-- Icon 2 -->
+        <div class="flex flex-col items-center gap-1 cursor-pointer group">
+            <i class="ph-fill ph-folder text-4xl text-yellow-300 group-active:brightness-75"></i>
+            <span class="text-white px-1 font-pixel text-xs tracking-wider group-active:bg-win-blue">Projects</span>
+        </div>
+        <!-- Icon 3 -->
+        <div class="flex flex-col items-center gap-1 cursor-pointer group">
+            <i class="ph-fill ph-trash text-4xl text-gray-300 group-active:brightness-75"></i>
+            <span class="text-white px-1 font-pixel text-xs tracking-wider group-active:bg-win-blue">Bugs</span>
+        </div>
+    </div>
+
+    <!-- WINDOW 1: PROFILE / NOTEPAD -->
+    <div class="absolute top-10 left-10 md:top-20 md:left-32 w-80 md:w-96 bg-win-gray shadow-win-out p-[2px] z-10 window">
+        <!-- Title Bar -->
+        <div class="title-bar bg-win-blue flex justify-between items-center px-1 py-[2px]">
+            <div class="flex items-center gap-1 text-white font-bold text-xs tracking-wide font-pixel">
+                <i class="ph-fill ph-notepad"></i> about_me.txt - Notepad
+            </div>
+            <div class="flex gap-[2px]">
+                <button class="btn-win w-4 h-4 flex items-center justify-center text-[10px] font-bold">_</button>
+                <button class="btn-win w-4 h-4 flex items-center justify-center text-[10px] font-bold">□</button>
+                <button class="btn-win w-4 h-4 flex items-center justify-center text-[10px] font-bold">X</button>
+            </div>
+        </div>
+        <!-- Menu -->
+        <div class="flex gap-4 px-2 py-1 text-xs border-b border-gray-400">
+            <span class="hover:bg-win-blue hover:text-white cursor-pointer px-1"><u>F</u>ile</span>
+            <span class="hover:bg-win-blue hover:text-white cursor-pointer px-1"><u>E</u>dit</span>
+            <span class="hover:bg-win-blue hover:text-white cursor-pointer px-1"><u>H</u>elp</span>
+        </div>
+        <!-- Content -->
+        <div class="p-1 h-64 bg-white shadow-win-in">
+            <textarea class="w-full h-full resize-none outline-none font-mono text-xs p-2" readonly>
+HELLO WORLD! 
+
+Tên: Trần Văn Dev
+Nghề nghiệp: Frontend Developer
+Level: Mid-Senior
+
+Tôi là một lập trình viên yêu thích việc biến những dòng code khô khan thành những giao diện mượt mà. 
+
+"Tôi không sửa bug, tôi tạo ra các tính năng bất ngờ."
+
+Sở thích:
+- Gõ phím cơ ồn ào (Blue switch)
+- Uống cà phê đen
+- Sưu tầm UI cổ điển
+            </textarea>
+        </div>
+    </div>
+
+    <!-- WINDOW 2: SKILLS LIST -->
+    <div class="absolute top-32 left-8 md:top-40 md:left-[500px] w-72 bg-win-gray shadow-win-out p-[2px] z-20 window">
+        <!-- Title Bar -->
+        <div class="title-bar bg-win-blue flex justify-between items-center px-1 py-[2px]">
+            <div class="flex items-center gap-1 text-white font-bold text-xs tracking-wide font-pixel">
+                <i class="ph-fill ph-gear"></i> Skills.exe
+            </div>
+            <div class="flex gap-[2px]">
+                <button class="btn-win w-4 h-4 flex items-center justify-center text-[10px] font-bold">X</button>
+            </div>
+        </div>
+        <!-- Content -->
+        <div class="p-4 flex flex-col gap-3 shadow-win-in bg-white m-1">
+            <p class="font-bold text-sm mb-1">Loading Dependencies...</p>
+            
+            <div class="flex items-center gap-3">
+                <i class="ph-fill ph-file-html text-orange-600 text-2xl"></i>
+                <div class="w-full">
+                    <div class="flex justify-between text-xs mb-1"><span>HTML/CSS/Tailwind</span><span>99%</span></div>
+                    <div class="w-full h-3 bg-gray-300 shadow-win-in"><div class="h-full bg-win-blue w-[99%]"></div></div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <i class="ph-fill ph-file-js text-yellow-500 text-2xl"></i>
+                <div class="w-full">
+                    <div class="flex justify-between text-xs mb-1"><span>JavaScript/ReactJS</span><span>85%</span></div>
+                    <div class="w-full h-3 bg-gray-300 shadow-win-in"><div class="h-full bg-win-blue w-[85%]"></div></div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <i class="ph-fill ph-database text-blue-500 text-2xl"></i>
+                <div class="w-full">
+                    <div class="flex justify-between text-xs mb-1"><span>Node.js & SQL</span><span>70%</span></div>
+                    <div class="w-full h-3 bg-gray-300 shadow-win-in"><div class="h-full bg-win-blue w-[70%]"></div></div>
+                </div>
+            </div>
+
+            <div class="mt-4 flex justify-center">
+                <button class="btn-win px-6 py-1 font-pixel text-sm">Download_CV.pdf</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WINDOW 3: IMAGE VIEWER (Avatar) -->
+    <div class="absolute top-72 left-20 md:top-24 md:left-[900px] w-64 bg-win-gray shadow-win-out p-[2px] z-30 window hidden md:block">
+        <!-- Title Bar -->
+        <div class="title-bar bg-win-blue flex justify-between items-center px-1 py-[2px]">
+            <div class="flex items-center gap-1 text-white font-bold text-xs tracking-wide font-pixel">
+                <i class="ph-fill ph-image"></i> portrait_2026.bmp
+            </div>
+            <div class="flex gap-[2px]">
+                <button class="btn-win w-4 h-4 flex items-center justify-center text-[10px] font-bold">X</button>
+            </div>
+        </div>
+        <!-- Content -->
+        <div class="p-1 bg-win-gray">
+            <div class="shadow-win-in bg-white p-1">
+                <!-- Retro-styled filtered image -->
+                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Avatar" class="w-full h-auto pixelated filter grayscale contrast-125 sepia-[0.3]" draggable="false">
+            </div>
+        </div>
+    </div>
+
+    <!-- ERROR DIALOG BOX (For fun/CTA) -->
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 bg-win-gray shadow-win-out p-[2px] z-50">
+        <!-- Title Bar -->
+        <div class="title-bar bg-red-700 flex justify-between items-center px-1 py-[2px]">
+            <div class="flex items-center gap-1 text-white font-bold text-xs tracking-wide font-pixel">
+                System Alert
+            </div>
+            <button class="btn-win w-4 h-4 flex items-center justify-center text-[10px] font-bold">X</button>
+        </div>
+        <!-- Content -->
+        <div class="p-4 flex gap-4 items-start">
+            <i class="ph-fill ph-warning-circle text-4xl text-yellow-500 bg-black rounded-full"></i>
+            <div>
+                <p class="mb-4">Doanh nghiệp của bạn đang thiếu một Developer xịn?</p>
+                <div class="flex justify-center gap-2">
+                    <a href="mailto:hireme@email.com" class="btn-win px-4 py-1 flex items-center gap-1"><i class="ph-fill ph-envelope"></i> Hire_Me</a>
+                    <button class="btn-win px-4 py-1" onclick="this.parentElement.parentElement.parentElement.parentElement.style.display='none'">Ignore</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TASKBAR (Bottom) -->
+    <div class="absolute bottom-0 left-0 w-full h-8 bg-win-gray shadow-win-out p-[2px] flex justify-between items-center z-50">
+        <div class="flex h-full gap-1">
+            <!-- Start Button -->
+            <button class="btn-win h-full px-2 flex items-center gap-1 font-bold font-pixel tracking-wider">
+                <i class="ph-fill ph-windows-logo text-blue-600"></i> Start
+            </button>
+            <div class="w-[2px] h-full shadow-win-in mx-1"></div>
+            <!-- Opened Tasks -->
+            <button class="btn-win h-full px-4 flex items-center gap-1 shadow-win-in bg-gray-300 font-bold text-xs max-w-[120px] truncate">
+                <i class="ph-fill ph-notepad"></i> about_me.txt
+            </button>
+            <button class="btn-win h-full px-4 flex items-center gap-1 text-xs max-w-[120px] truncate">
+                <i class="ph-fill ph-gear"></i> Skills.exe
+            </button>
+        </div>
+        
+        <!-- System Tray -->
+        <div class="h-full shadow-win-in px-2 flex items-center gap-2 text-xs font-pixel">
+            <i class="ph-fill ph-speaker-high"></i>
+            <span id="clock">10:45 AM</span>
+        </div>
+    </div>
+
+    <!-- Script for Clock and basic Drag logic -->
+    <script>
+        // Clock functionality
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            const strTime = hours + ':' + minutes + ' ' + ampm;
+            document.getElementById('clock').textContent = strTime;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Simple Drag functionality for windows
+        const windows = document.querySelectorAll('.window');
+        let highestZ = 100;
+
+        windows.forEach(win => {
+            const titleBar = win.querySelector('.title-bar');
+            let isDragging = false;
+            let currentX;
+            let currentY;
+            let initialX;
+            let initialY;
+            let xOffset = 0;
+            let yOffset = 0;
+
+            // Bring to front on click
+            win.addEventListener('mousedown', () => {
+                highestZ++;
+                win.style.zIndex = highestZ;
+            });
+
+            titleBar.addEventListener('mousedown', dragStart);
+            document.addEventListener('mouseup', dragEnd);
+            document.addEventListener('mousemove', drag);
+
+            function dragStart(e) {
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+                if (e.target === titleBar || titleBar.contains(e.target)) {
+                    isDragging = true;
+                }
+            }
+
+            function dragEnd(e) {
+                initialX = currentX;
+                initialY = currentY;
+                isDragging = false;
+            }
+
+            function drag(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+                    xOffset = currentX;
+                    yOffset = currentY;
+                    setTranslate(currentX, currentY, win);
+                }
+            }
+
+            function setTranslate(xPos, yPos, el) {
+                el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+            }
+        });
+    </script>
+</body>
+</html>

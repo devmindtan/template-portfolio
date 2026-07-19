@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Stacked Folders | Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        headline: ['Anton', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                        sans: ['"Space Grotesk"', 'sans-serif'],
+                    },
+                    colors: {
+                        bg: '#e6e2d6',
+                        f1: '#f4ebd9', // Cream (Base)
+                        f2: '#737194', // Purple Blue
+                        f3: '#6b2f27', // Maroon/Dark Red
+                        f4: '#698799', // Slate Blue
+                        f5: '#2a2223', // Dark Brown/Black
+                        paper: '#f9f8f3' // Inner paper color
+                    },
+                    boxShadow: {
+                        'folder': '0 -15px 35px rgba(0,0,0,0.25)',
+                        'paper': '2px 5px 15px rgba(0,0,0,0.15)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #e6e2d6;
+            margin: 0;
+            overflow: hidden; /* Khóa cuộn trang bên ngoài, chỉ cuộn bên trong folder */
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Hiệu ứng nhiễu giấy Vintage cho toàn màn hình */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: multiply;
+        }
+
+        /* Container chứa các Folder */
+        .folder-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            height: 100vh;
+        }
+
+        /* Class cơ bản của Folder */
+        .folder {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 120vh; /* Đảm bảo đủ dài để che phần dưới */
+            border-top-right-radius: 12px;
+            box-shadow: 0 -15px 35px rgba(0,0,0,0.25);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            /* Animation trượt mượt mà */
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.3, 1);
+            will-change: transform;
+        }
+
+        /* Thêm Texture (độ nhám) cho bìa folder */
+        .folder::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            pointer-events: none;
+            border-top-right-radius: 12px;
+        }
+
+        /* Thiết kế Tab (Phần nhô lên để bấm) */
+        .tab {
+            position: absolute;
+            top: -50px; /* Độ cao của tab nhô ra ngoài */
+            height: 50px;
+            padding: 0 32px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 -8px 20px rgba(0,0,0,0.15);
+            transition: filter 0.2s, padding 0.2s;
+        }
+        
+        .folder:hover .tab { 
+            filter: brightness(1.1); 
+            padding-bottom: 5px; 
+        }
+
+        /* Các tờ giấy (Tập tin) bên trong */
+        .inner-file {
+            position: absolute;
+            background-color: #f9f8f3;
+            box-shadow: 2px 4px 15px rgba(0,0,0,0.1), inset 0 0 20px rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.4s ease, box-shadow 0.4s ease, z-index 0s;
+        }
+        
+        /* Hiệu ứng nổi lên khi di chuột vào từng tờ giấy */
+        .inner-file:hover {
+            transform: scale(1.02) rotate(0deg) !important;
+            box-shadow: 5px 15px 30px rgba(0,0,0,0.15);
+            z-index: 50 !important;
+        }
+
+        /* Vùng nội dung bên trong Folder có thể cuộn được */
+        .folder-content {
+            padding: 2rem 1rem 450px 1rem; /* Padding bottom lớn để cuộn không bị kẹt ở các tab phía dưới */
+            height: 100vh;
+            overflow-y: auto;
+            /* Ẩn thanh cuộn cho thẩm mỹ */
+            -ms-overflow-style: none; scrollbar-width: none;
+        }
+        .folder-content::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="folder-container">
+
+        <!-- FOLDER 0: BASE / GIỚI THIỆU (Cream) -->
+        <div class="folder bg-f1 text-f5" id="folder-0">
+            <div class="tab bg-f1 text-f5" style="left: 0; padding-left: 20px;" onclick="activateFolder(0)">INTRO</div>
+            
+            <div class="folder-content">
+                <div class="max-w-3xl mx-auto mt-16 px-8 text-center relative z-10">
+                    <p class="font-serif italic text-2xl text-f3 mb-2">Hồ sơ năng lực của Marketer</p>
+                    <h1 class="font-headline text-[80px] md:text-[140px] leading-[0.8] text-f5 tracking-tighter uppercase">
+                        VŨ TĂNG<br><span class="text-f3">TRƯỞNG</span>
+                    </h1>
+                    <p class="font-sans font-bold uppercase tracking-[0.3em] mt-8 text-f2 border-b-2 border-f2 pb-2 inline-block">
+                        Digital Marketing & Growth
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOLDER 1: VỀ TÔI (Purple Blue) -->
+        <div class="folder bg-f2 text-white" id="folder-1">
+            <div class="tab bg-f2 text-white" style="left: 15%;" onclick="activateFolder(1)">Profile</div>
+            
+            <div class="folder-content">
+                <div class="relative w-full max-w-4xl mx-auto mt-8 h-[900px]">
+                    
+                    <!-- Giấy 1 (Bên trái, trên cùng) -->
+                    <div class="inner-file w-[90%] md:w-[500px] p-8 absolute top-0 left-0 md:left-[5%] transform -rotate-2 z-10 text-f5">
+                        <h2 class="font-headline text-4xl mb-4">MỤC TIÊU</h2>
+                        <p class="font-sans text-sm leading-relaxed">
+                            Không chỉ dừng lại ở việc chạy Ads ra tin nhắn. Mục tiêu của tôi là tối ưu hóa toàn bộ phễu bán hàng (Full-funnel), giảm thiểu lãng phí ngân sách và mang lại <strong>ROI dương</strong> ngay trong quý đầu tiên cho doanh nghiệp.
+                        </p>
+                    </div>
+
+                    <!-- Giấy 2 (Ảnh Polaroid, nằm kẹt giữa) -->
+                    <div class="inner-file p-4 absolute top-20 right-4 md:right-[15%] transform rotate-6 z-20 flex flex-col items-center shadow-paper">
+                        <img src="https://images.unsplash.com/photo-1552581234-26160f608093?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" class="w-48 h-56 object-cover filter grayscale contrast-125">
+                        <p class="font-serif italic font-bold text-f5 mt-2">Vũ (26 tuổi)</p>
+                    </div>
+
+                    <!-- Giấy 3 (Bên phải, phía dưới) -->
+                    <div class="inner-file w-[90%] md:w-[450px] p-8 absolute top-56 left-4 md:left-[25%] transform -rotate-1 z-30 text-f5 border-t-8 border-f3">
+                        <h2 class="font-headline text-4xl mb-4 text-f3">HỌC VẤN</h2>
+                        <ul class="font-sans text-sm space-y-4 font-bold">
+                            <li class="flex justify-between border-b border-gray-200 pb-2">
+                                <span>Cử nhân Marketing ĐH Kinh Tế</span>
+                                <span>GPA: 3.8</span>
+                            </li>
+                            <li class="flex justify-between border-b border-gray-200 pb-2">
+                                <span>Chứng chỉ Google Analytics 4</span>
+                                <span class="text-gray-400">2024</span>
+                            </li>
+                            <li class="flex justify-between pb-2">
+                                <span>Meta Blueprint Certified</span>
+                                <span class="text-gray-400">2025</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- FOLDER 2: DỰ ÁN (Maroon / Dark Red) -->
+        <div class="folder bg-f3 text-f1" id="folder-2">
+            <div class="tab bg-f3 text-f1" style="left: 35%;" onclick="activateFolder(2)">Case Studies</div>
+            
+            <div class="folder-content">
+                <!-- Vùng chứa các tờ giấy so le nhau -->
+                <div class="relative w-full max-w-4xl mx-auto mt-12 h-[1000px]">
+                    
+                    <!-- Paper 1 (Trên cùng bên trái) -->
+                    <div class="inner-file w-[90%] md:w-[480px] p-6 absolute top-0 left-0 md:left-[5%] transform -rotate-3 z-10 text-f5">
+                        <div class="flex justify-between items-start mb-4 border-b border-gray-300 pb-2">
+                            <h3 class="font-headline text-3xl">DỰ ÁN X</h3>
+                            <span class="bg-f4 text-white text-xs px-2 py-1 font-bold">FMCG</span>
+                        </div>
+                        <p class="font-serif italic text-sm mb-4">Chiến dịch ra mắt sản phẩm nước giải khát mùa hè 2024.</p>
+                        <div class="grid grid-cols-2 gap-2 text-xs font-bold">
+                            <div class="bg-gray-100 p-3 rounded">Ngân sách: 2 Tỷ</div>
+                            <div class="bg-gray-100 p-3 rounded text-f3">ROAS: 4.5x</div>
+                        </div>
+                    </div>
+
+                    <!-- Paper 2 (Giữa bên phải) -->
+                    <div class="inner-file w-[90%] md:w-[480px] p-6 absolute top-40 right-0 md:right-[5%] transform rotate-2 z-20 text-f5 border-l-8 border-f2">
+                        <div class="flex justify-between items-start mb-4 border-b border-gray-300 pb-2">
+                            <h3 class="font-headline text-3xl">DỰ ÁN Y</h3>
+                            <span class="bg-f2 text-white text-xs px-2 py-1 font-bold">B2B SAAS</span>
+                        </div>
+                        <p class="font-serif italic text-sm mb-4">Tối ưu hóa phễu tạo Lead (Lead Generation) cho phần mềm nhân sự.</p>
+                        <div class="grid grid-cols-2 gap-2 text-xs font-bold">
+                            <div class="bg-gray-100 p-3 rounded">Leads: 5,000+</div>
+                            <div class="bg-gray-100 p-3 rounded text-f2">CPA: Giảm 40%</div>
+                        </div>
+                    </div>
+
+                    <!-- Paper 3 (Dưới cùng ở giữa) -->
+                    <div class="inner-file w-[90%] md:w-[500px] p-8 absolute top-80 left-4 md:left-[15%] transform -rotate-1 z-30 text-f5 border-t-8 border-f3 shadow-paper">
+                        <div class="flex justify-between items-start mb-4 border-b border-gray-300 pb-2">
+                            <h3 class="font-headline text-4xl text-f3">MEGA SALE 11.11</h3>
+                            <span class="bg-f5 text-white text-xs px-2 py-1 font-bold">E-COMMERCE</span>
+                        </div>
+                        <p class="font-serif italic text-sm mb-6 text-gray-600">Sử dụng Dynamic Ads và Retargeting đa kênh (Tiktok, Facebook, Google Pmax).</p>
+                        <div class="flex flex-col gap-3 font-bold text-sm">
+                            <div class="flex justify-between border-b border-dashed border-gray-300 pb-2"><span>Doanh thu:</span> <span class="text-f3 text-2xl">12 Tỷ VNĐ</span></div>
+                            <div class="flex justify-between border-b border-dashed border-gray-300 pb-2"><span>Tỉ lệ chuyển đổi:</span> <span>8.2%</span></div>
+                            <div class="flex justify-between pb-1"><span>Tăng trưởng:</span> <span class="text-f4">+150% so với kỳ trước</span></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- FOLDER 3: KỸ NĂNG (Slate Blue) -->
+        <div class="folder bg-f4 text-f1" id="folder-3">
+            <div class="tab bg-f4 text-f1" style="left: 55%;" onclick="activateFolder(3)">Skills Set</div>
+            
+            <div class="folder-content">
+                <div class="max-w-4xl mx-auto mt-16 px-8 flex flex-col md:flex-row gap-12">
+                    <div class="flex-1">
+                        <h2 class="font-headline text-5xl md:text-7xl mb-8 uppercase">Vũ khí<br>Chiến đấu</h2>
+                        <p class="font-serif italic text-xl mb-6 opacity-90">Không chạy ads mù quáng, mọi quyết định đều dựa trên dữ liệu (Data-driven).</p>
+                        <button class="border-2 border-f1 px-6 py-3 font-sans font-bold tracking-widest hover:bg-f1 hover:text-f4 transition-colors mt-8">TẢI CV (PDF)</button>
+                    </div>
+
+                    <div class="flex-1 relative">
+                        <!-- Giấy liệt kê Skill -->
+                        <div class="bg-f1 text-f5 p-8 shadow-paper transform rotate-2 border border-gray-200">
+                            <h3 class="font-headline text-3xl mb-6 border-b-2 border-f5 pb-2">TECHNICAL SKILLS</h3>
+                            <ul class="font-sans font-bold space-y-6">
+                                <li>
+                                    <div class="flex justify-between text-sm mb-2"><span>Meta / Google Ads</span><span>95%</span></div>
+                                    <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden"><div class="h-full bg-f4 w-[95%]"></div></div>
+                                </li>
+                                <li>
+                                    <div class="flex justify-between text-sm mb-2"><span>GA4 / Looker Studio</span><span>85%</span></div>
+                                    <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden"><div class="h-full bg-f4 w-[85%]"></div></div>
+                                </li>
+                                <li>
+                                    <div class="flex justify-between text-sm mb-2"><span>SEO / Content Strategy</span><span>80%</span></div>
+                                    <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden"><div class="h-full bg-f4 w-[80%]"></div></div>
+                                </li>
+                                <li>
+                                    <div class="flex justify-between text-sm mb-2"><span>Figma / Landing Page</span><span>70%</span></div>
+                                    <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden"><div class="h-full bg-f4 w-[70%]"></div></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOLDER 4: LIÊN HỆ (Dark Brown/Black) -->
+        <div class="folder bg-f5 text-f1" id="folder-4">
+            <div class="tab bg-f5 text-f1" style="left: 75%;" onclick="activateFolder(4)">Contact</div>
+            
+            <div class="folder-content">
+                <div class="max-w-3xl mx-auto mt-24 px-8 text-center">
+                    <h2 class="font-serif italic text-3xl text-f4 mb-4">Bạn cần một chiến dịch bùng nổ?</h2>
+                    <h1 class="font-headline text-[70px] md:text-[100px] leading-none uppercase text-f1 mb-12">
+                        LET'S WORK<br>TOGETHER.
+                    </h1>
+                    
+                    <div class="flex flex-col md:flex-row justify-center gap-6 font-sans font-bold">
+                        <a href="mailto:growth@email.com" class="flex items-center justify-center gap-3 bg-f3 text-f1 px-8 py-4 hover:scale-105 transition-transform shadow-lg">
+                            <i class="ph-fill ph-envelope-simple text-2xl"></i> growth@email.com
+                        </a>
+                        <a href="tel:0901234567" class="flex items-center justify-center gap-3 bg-f1 text-f5 px-8 py-4 hover:scale-105 transition-transform shadow-lg">
+                            <i class="ph-fill ph-phone text-2xl"></i> 090 123 4567
+                        </a>
+                    </div>
+                    
+                    <p class="font-sans text-xs uppercase tracking-widest mt-20 opacity-40">
+                        * Nhấp vào các Tab phía trên để lật hồ sơ.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const folders = document.querySelectorAll('.folder');
+        
+        // CÁC THÔNG SỐ ĐIỀU CHỈNH KHOẢNG CÁCH
+        const tabHeight = 50; // Chiều cao thực tế của phần Tab nhô lên
+        const gap = 20;       // KHOẢNG CÁCH HỞ RA giữa các thân bìa hồ sơ (Để không bị dính sát vào nhau)
+        const step = tabHeight + gap; // Tổng bước nhảy cho mỗi folder (70px)
+        const topSpacing = 80; // Khoảng cách từ đỉnh màn hình xuống (Giúp Tab đầu tiên không bị che lấp)
+
+        function activateFolder(activeIndex) {
+            const totalFolders = folders.length;
+
+            folders.forEach((folder, index) => {
+                if (index <= activeIndex) {
+                    // CÁC FOLDER Ở TRÊN: Xếp chồng từ trên xuống
+                    // Mỗi folder cách nhau 1 khoảng (step = 70px), đủ để hở cả Tab (50px) và Thân bìa (20px)
+                    const yPos = topSpacing + (index * step);
+                    folder.style.transform = `translateY(${yPos}px)`;
+                } else {
+                    // CÁC FOLDER Ở DƯỚI: Đẩy tuột xuống đáy màn hình
+                    // Chỉ chừa lại phần Tab + khoảng hở (step = 70px) tính từ dưới lên
+                    const tabsBelow = totalFolders - index;
+                    const offsetFromBottom = tabsBelow * step;
+                    folder.style.transform = `translateY(calc(100vh - ${offsetFromBottom}px))`;
+                }
+            });
+        }
+
+        // Khởi tạo ban đầu: Mở Folder 0
+        window.onload = () => {
+            activateFolder(0);
+        };
+    </script>
+</body>
+</html>

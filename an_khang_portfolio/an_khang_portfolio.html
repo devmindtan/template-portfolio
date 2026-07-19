@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trần An Khang | Brand Marketing Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Anton for the massive bold headlines, Manrope for clean, modern body text -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        headline: ['Anton', 'sans-serif'],
+                        sans: ['Manrope', 'sans-serif'],
+                    },
+                    colors: {
+                        theme: {
+                            bg: '#FFF0ED',       // Soft peach background
+                            coral: '#FF6262',    // Vibrant coral/salmon red
+                            dark: '#1C1C1C',     // Almost black
+                            card: '#FFFFFF',
+                            blue: '#001F82'      // Unilever Blue
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 20px 40px -15px rgba(255, 98, 98, 0.2)',
+                        'card': '0 10px 30px rgba(0,0,0,0.05)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #FFF0ED;
+            color: #1C1C1C;
+            overflow-x: hidden;
+        }
+
+        /* Brush stroke effect behind text */
+        .brush-stroke {
+            position: relative;
+            display: inline-block;
+        }
+        .brush-stroke::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: -10%;
+            width: 120%;
+            height: 15px;
+            background-color: #FF6262;
+            opacity: 0.3;
+            border-radius: 10px;
+            z-index: -1;
+            transform: rotate(-2deg);
+        }
+
+        /* Hero portrait card: framed photo overlapping the bottom of the coral card */
+        .hero-image-wrapper {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        /* Hide scrollbar for mini carousels if needed */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* General reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mini card styling from the reference */
+        .mini-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-theme-coral selection:text-white pb-20">
+
+    <!-- NAVIGATION (Clean, minimal top bar) -->
+    <nav class="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center relative z-50">
+        <div class="hidden md:flex gap-8 font-semibold text-sm">
+            <a href="#about" class="hover:text-theme-coral transition-colors">Giới thiệu</a>
+            <a href="#skills" class="hover:text-theme-coral transition-colors">Năng lực</a>
+            <a href="#portfolio" class="hover:text-theme-coral transition-colors">Sản phẩm</a>
+            <a href="#contact" class="hover:text-theme-coral transition-colors">Liên hệ</a>
+        </div>
+        
+        <div class="font-headline text-3xl tracking-wider text-theme-dark uppercase text-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
+            An Khang
+        </div>
+        
+        <div class="flex items-center gap-4">
+            <div class="hidden md:flex items-center gap-2 bg-white px-4 py-1.5 rounded-full shadow-sm text-sm font-bold">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div> Available
+            </div>
+            <a href="#contact" class="bg-theme-coral text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-red-500 transition-colors shadow-soft">
+                Hire Me
+            </a>
+        </div>
+    </nav>
+
+    <!-- 1. HERO SECTION (Directly matching the reference image) -->
+    <section class="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-12">
+        <div class="relative w-full">
+            
+            <!-- MASSIVE BACKGROUND TEXT -->
+            <div class="flex flex-col lg:flex-row justify-between items-center lg:items-end px-4 md:px-12 mb-4 lg:mb-2 relative z-0">
+                <div class="text-2xl sm:text-4xl lg:text-6xl font-extrabold italic text-theme-dark flex flex-wrap items-baseline justify-center lg:justify-start gap-2 sm:gap-4 mb-4 lg:mb-0">
+                    <span class="font-sans font-bold italic tracking-tighter">Own the</span>
+                    <span class="font-headline text-4xl sm:text-6xl lg:text-[120px] not-italic leading-none">STRATEGY</span>
+                </div>
+                <div class="text-2xl sm:text-4xl lg:text-6xl font-extrabold italic text-theme-dark flex flex-wrap items-baseline justify-center lg:justify-end gap-2 sm:gap-4">
+                    <span class="font-sans font-bold italic tracking-tighter">Keep the</span>
+                    <span class="font-headline text-4xl sm:text-6xl lg:text-[120px] not-italic leading-none brush-stroke">CREATIVE</span>
+                </div>
+            </div>
+
+            <!-- THE CORAL CARD -->
+            <div class="bg-theme-coral rounded-[2.5rem] md:rounded-[4rem] w-full min-h-[500px] lg:h-[550px] relative z-0 p-8 md:p-12 flex flex-col lg:flex-row justify-between items-start lg:items-center shadow-2xl">
+
+                <!-- Left Side Content (Intro) -->
+                <div class="w-full lg:w-[35%] text-white relative z-20 pt-16 lg:pt-0">
+                    <p class="text-white/80 font-bold uppercase tracking-widest text-xs mb-3">Ứng viên Brand Marketing</p>
+                    <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
+                        Khác biệt bằng<br>Tư duy chiến lược.
+                    </h1>
+                    <p class="text-white/90 text-sm font-medium mb-8 leading-relaxed max-w-sm">
+                        Đam mê xây dựng thương hiệu. Khao khát tạo ra giá trị tích cực cho cộng đồng. Sẵn sàng bứt phá tại <strong>Unilever Vietnam</strong>.
+                    </p>
+                    <a href="#about" class="inline-flex items-center gap-2 bg-white text-theme-coral px-6 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors">
+                        Xem hồ sơ <i class="ph-bold ph-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Right Side Content (Mini Cards & Badges) -->
+                <div class="w-full lg:w-[30%] relative z-20 flex flex-col items-end gap-8 mt-12 lg:mt-0">
+                    
+                    <!-- Top Icons (Future, Unique, Limited) -->
+                    <div class="flex gap-6 text-white text-center">
+                        <div class="flex flex-col items-center gap-2">
+                            <i class="ph-fill ph-target text-2xl"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-widest">Chiến<br>Lược</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2">
+                            <i class="ph-fill ph-lightbulb text-2xl"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-widest">Sáng<br>Tạo</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-2">
+                            <i class="ph-fill ph-chart-line-up text-2xl"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-widest">Thực<br>Thi</span>
+                        </div>
+                    </div>
+
+                    <!-- Mini Card (Featured Achievement) -->
+                    <div class="bg-white rounded-[2rem] p-4 w-64 shadow-xl transform rotate-2 hover:rotate-0 transition-transform">
+                        <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Thành tích nổi bật</p>
+                        <!-- Rounded inner image container -->
+                        <div class="w-full h-36 bg-blue-50 rounded-[1.5rem] overflow-hidden mb-3 relative flex items-center justify-center">
+                            <img src="images/certificate.jpg" alt="Giấy khen Thủ khoa" class="absolute inset-0 w-full h-full object-cover opacity-25" loading="lazy">
+                            <div class="z-10 text-center">
+                                <i class="ph-fill ph-medal text-4xl text-yellow-500 mb-1"></i>
+                                <h4 class="font-headline text-2xl text-theme-blue tracking-wider">THỦ KHOA</h4>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h5 class="font-bold text-gray-900 text-sm">Đại học TC-Marketing</h5>
+                            <p class="text-xs text-gray-500 font-medium">Niên khóa 2024 (UFM)</p>
+                        </div>
+                        <div class="mt-3 bg-theme-coral/10 text-theme-coral rounded-full py-2 flex items-center justify-center gap-2 text-sm font-bold">
+                            <i class="ph-fill ph-crown"></i> Top 1 GPA
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CENTER PORTRAIT CARD (real photo, framed since no transparent cutout PNG exists) -->
+                <div class="hero-image-wrapper hidden lg:block">
+                    <div class="w-72 lg:w-80 aspect-[3/4] rounded-[2.5rem] overflow-hidden border-[6px] border-white shadow-2xl">
+                        <img src="images/hero-portrait.jpg" alt="Trần An Khang" class="w-full h-full object-cover object-top">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portrait fallback for mobile & tablet (stacked below the card, no overlap regardless of content height) -->
+            <div class="lg:hidden w-full flex justify-center mt-8 px-8">
+                 <img src="images/hero-portrait.jpg" alt="Trần An Khang" class="w-full max-w-xs h-auto aspect-[3/4] object-cover object-top rounded-[2rem] border-4 border-white shadow-2xl">
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 2. GIỚI THIỆU (ABOUT) -->
+    <section id="about" class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                <!-- Về Tôi Card -->
+                <div class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-card reveal">
+                    <div class="w-12 h-12 bg-theme-coral/10 text-theme-coral rounded-full flex items-center justify-center text-2xl mb-6">
+                        <i class="ph-fill ph-user"></i>
+                    </div>
+                    <h2 class="font-headline text-4xl uppercase tracking-wider mb-6 text-theme-dark">Về An Khang</h2>
+                    <p class="text-gray-600 font-medium leading-relaxed mb-4">
+                        Tôi là một người yêu thích Marketing, đặc biệt là lĩnh vực <strong>Brand Marketing</strong>, nơi kết hợp giữa tư duy chiến lược, sự sáng tạo và khả năng thấu hiểu người tiêu dùng để xây dựng những thương hiệu bền vững.
+                    </p>
+                    <p class="text-gray-600 font-medium leading-relaxed mb-6">
+                        Trong quá trình học tập, tôi luôn chủ động tham gia các cuộc thi học thuật, dự án thực tế và hoạt động ngoại khóa nhằm nâng cao kiến thức chuyên môn cũng như rèn luyện kỹ năng làm việc nhóm, tư duy phản biện.
+                    </p>
+                    <!-- Unilever target block -->
+                    <div class="bg-blue-50 rounded-2xl p-6 border border-blue-100 flex items-start gap-4">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shrink-0 shadow-sm overflow-hidden p-1.5">
+                            <img src="images/unilever-logo.jpg" alt="Unilever" class="w-full h-full object-contain">
+                        </div>
+                        <p class="text-sm font-bold text-theme-blue leading-snug">
+                            Mục tiêu của tôi là phát triển tại <span class="uppercase">Unilever Vietnam</span>, học hỏi và đóng góp những ý tưởng tạo ra giá trị tích cực cho cuộc sống.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Giải Thưởng Card -->
+                <div class="bg-theme-dark text-white rounded-[2.5rem] p-8 md:p-12 shadow-card reveal" style="transition-delay: 0.1s;">
+                    <div class="w-12 h-12 bg-white/10 text-yellow-400 rounded-full flex items-center justify-center text-2xl mb-6">
+                        <i class="ph-fill ph-trophy"></i>
+                    </div>
+                    <h2 class="font-headline text-4xl uppercase tracking-wider mb-8">Bảng Vàng</h2>
+                    
+                    <ul class="space-y-6">
+                        <li>
+                            <button type="button" onclick="openLightbox('images/award-thukhoa-full.jpg', 'Giấy khen Thủ khoa')" class="flex items-center gap-4 w-full text-left group cursor-zoom-in">
+                                <div class="w-14 h-14 rounded-2xl overflow-hidden shrink-0 ring-2 ring-white/10 group-hover:ring-theme-coral transition-all">
+                                    <img src="images/award-thukhoa.jpg" alt="Thủ khoa" class="w-full h-full object-cover" loading="lazy">
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Thủ khoa Trường ĐH Tài chính – Marketing</h4>
+                                    <p class="text-gray-400 text-sm font-medium">Niên khóa 2024</p>
+                                </div>
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" onclick="openLightbox('images/award-arena-full.jpg', 'Marketing Arena')" class="flex items-center gap-4 w-full text-left group cursor-zoom-in">
+                                <div class="w-14 h-14 rounded-2xl overflow-hidden shrink-0 ring-2 ring-white/10 group-hover:ring-theme-coral transition-all">
+                                    <img src="images/award-arena.jpg" alt="Marketing Arena" class="w-full h-full object-cover" loading="lazy">
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Top 10 Marketing Arena</h4>
+                                    <p class="text-gray-400 text-sm font-medium">Năm 2026</p>
+                                </div>
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" onclick="openLightbox('images/award-onair-full.jpg', 'Marketing On Air')" class="flex items-center gap-4 w-full text-left group cursor-zoom-in">
+                                <div class="w-14 h-14 rounded-2xl overflow-hidden shrink-0 ring-2 ring-white/10 group-hover:ring-theme-coral transition-all">
+                                    <img src="images/award-onair.jpg" alt="Marketing On Air" class="w-full h-full object-cover" loading="lazy">
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Top 8 Marketing On Air</h4>
+                                    <p class="text-gray-400 text-sm font-medium">Năm 2025</p>
+                                </div>
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" onclick="openLightbox('images/award-intellympics-full.jpg', 'Marketing Intellympics')" class="flex items-center gap-4 w-full text-left group cursor-zoom-in">
+                                <div class="w-14 h-14 rounded-2xl overflow-hidden shrink-0 ring-2 ring-white/10 group-hover:ring-theme-coral transition-all">
+                                    <img src="images/award-intellympics.jpg" alt="Marketing Intellympics" class="w-full h-full object-cover" loading="lazy">
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Top 4 Marketing Intellympics</h4>
+                                    <p class="text-gray-400 text-sm font-medium">Năm 2025</p>
+                                </div>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. NĂNG LỰC (SKILLS) - Matching the rounded/coral aesthetic -->
+    <section id="skills" class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 flex flex-col md:flex-row justify-between items-end gap-4 reveal">
+                <div>
+                    <h3 class="font-headline text-5xl md:text-7xl uppercase tracking-wider text-theme-dark leading-none">Năng Lực<br><span class="text-theme-coral">Cốt Lõi</span></h3>
+                </div>
+                <p class="max-w-md text-gray-600 font-medium pb-2">
+                    Kết hợp tư duy chiến lược với thiết kế trực quan để xây dựng chiến dịch truyền thông toàn diện.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Box 1 -->
+                <div class="bg-white rounded-[2rem] p-8 shadow-card reveal">
+                    <h4 class="font-headline text-2xl uppercase tracking-widest mb-6 border-b-2 border-theme-bg pb-4">Chuyên Môn</h4>
+                    <ul class="space-y-4 font-bold text-gray-700">
+                        <li class="flex items-center gap-3"><i class="ph-fill ph-check-circle text-theme-coral text-xl"></i> Lập kế hoạch Marketing</li>
+                        <li class="flex items-center gap-3"><i class="ph-fill ph-check-circle text-theme-coral text-xl"></i> Nghiên cứu thị trường</li>
+                        <li class="flex items-center gap-3"><i class="ph-fill ph-check-circle text-theme-coral text-xl"></i> Phân tích Insight khách hàng</li>
+                        <li class="flex items-center gap-3"><i class="ph-fill ph-check-circle text-theme-coral text-xl"></i> Xây dựng Campaign</li>
+                        <li class="flex items-center gap-3"><i class="ph-fill ph-check-circle text-theme-coral text-xl"></i> Thiết kế Keyvisual, Poster</li>
+                    </ul>
+                </div>
+                
+                <!-- Box 2 -->
+                <div class="bg-white rounded-[2rem] p-8 shadow-card reveal" style="transition-delay: 0.1s;">
+                    <h4 class="font-headline text-2xl uppercase tracking-widest mb-6 border-b-2 border-theme-bg pb-4">Kỹ Năng Mềm</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-theme-bg text-theme-dark px-4 py-2 rounded-full text-sm font-bold border border-gray-200">Giao tiếp hiệu quả</span>
+                        <span class="bg-theme-bg text-theme-dark px-4 py-2 rounded-full text-sm font-bold border border-gray-200">Làm việc nhóm</span>
+                        <span class="bg-theme-bg text-theme-dark px-4 py-2 rounded-full text-sm font-bold border border-gray-200">Thuyết trình</span>
+                        <span class="bg-theme-bg text-theme-dark px-4 py-2 rounded-full text-sm font-bold border border-gray-200">Tư duy sáng tạo</span>
+                        <span class="bg-theme-coral text-white px-4 py-2 rounded-full text-sm font-bold">Thế mạnh Thiết kế</span>
+                    </div>
+                </div>
+
+                <!-- Box 3 -->
+                <div class="bg-theme-coral text-white rounded-[2rem] p-8 shadow-soft reveal" style="transition-delay: 0.2s;">
+                    <h4 class="font-headline text-2xl uppercase tracking-widest mb-6 border-b-2 border-white/20 pb-4">Công Cụ & NN</h4>
+                    <div class="space-y-5 font-bold">
+                        <div>
+                            <div class="flex justify-between text-sm mb-2"><span>Adobe Ps, Ai</span><span>Thành thạo</span></div>
+                            <div class="w-full bg-white/30 h-2 rounded-full"><div class="bg-white h-2 rounded-full w-[90%]"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-2"><span>Canva Pro</span><span>Thành thạo</span></div>
+                            <div class="w-full bg-white/30 h-2 rounded-full"><div class="bg-white h-2 rounded-full w-[95%]"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-2"><span>MS Office 365</span><span>Thành thạo</span></div>
+                            <div class="w-full bg-white/30 h-2 rounded-full"><div class="bg-white h-2 rounded-full w-[85%]"></div></div>
+                        </div>
+                        <div class="pt-4 border-t border-white/20">
+                            <span class="bg-white text-theme-coral px-4 py-2 rounded-full text-sm inline-block">IELTS 6.5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. SẢN PHẨM NỔI BẬT (PORTFOLIO) -->
+    <section id="portfolio" class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-headline text-center text-5xl md:text-7xl uppercase tracking-wider text-theme-dark mb-12 reveal">Sản Phẩm <span class="text-theme-coral">Thực Tế</span></h2>
+
+            <!-- Masonry-style grid for visual variety -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Project 1 -->
+                <div class="bg-white rounded-[2rem] p-4 shadow-card hover:-translate-y-2 transition-transform cursor-pointer reveal group">
+                    <div class="rounded-[1.5rem] overflow-hidden aspect-[4/3] mb-4 relative">
+                        <img src="images/portfolio-vietnam.jpg" alt="Việt Nam - Đoàn kết dân tộc" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="bg-white text-black font-bold px-4 py-2 rounded-full text-sm">Xem chi tiết</div>
+                        </div>
+                    </div>
+                    <div class="px-2 pb-2">
+                        <span class="text-theme-coral font-bold text-xs uppercase tracking-widest">Key Visual</span>
+                        <h4 class="font-bold text-xl mt-1">Việt Nam - Đoàn kết dân tộc</h4>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="bg-white rounded-[2rem] p-4 shadow-card hover:-translate-y-2 transition-transform cursor-pointer reveal group" style="transition-delay: 0.1s;">
+                    <div class="rounded-[1.5rem] overflow-hidden aspect-[4/3] mb-4 relative bg-white flex items-center justify-center p-8">
+                        <img src="images/portfolio-odaycogi.png" alt="Ở đây có gì" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                    </div>
+                    <div class="px-2 pb-2">
+                        <span class="text-theme-coral font-bold text-xs uppercase tracking-widest">Logo & Typo</span>
+                        <h4 class="font-bold text-xl mt-1">Ở Đây Có Gì? (Food & Travel)</h4>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="bg-white rounded-[2rem] p-4 shadow-card hover:-translate-y-2 transition-transform cursor-pointer reveal group" style="transition-delay: 0.2s;">
+                    <div class="rounded-[1.5rem] overflow-hidden aspect-[4/3] mb-4 relative bg-blue-50 flex items-center justify-center p-10">
+                        <img src="images/portfolio-dearmate.png" alt="Dearmate" class="w-full h-full object-contain group-hover:scale-110 transition-transform" loading="lazy">
+                    </div>
+                    <div class="px-2 pb-2">
+                        <span class="text-theme-coral font-bold text-xs uppercase tracking-widest">App Identity</span>
+                        <h4 class="font-bold text-xl mt-1">Dearmate</h4>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="bg-white rounded-[2rem] p-4 shadow-card hover:-translate-y-2 transition-transform cursor-pointer reveal group">
+                    <div class="rounded-[1.5rem] overflow-hidden aspect-[4/3] mb-4 relative bg-black flex items-center justify-center p-8">
+                        <img src="images/portfolio-greengo.png" alt="GreenGo" class="w-full h-full object-contain group-hover:scale-110 transition-transform" loading="lazy">
+                    </div>
+                    <div class="px-2 pb-2">
+                        <span class="text-theme-coral font-bold text-xs uppercase tracking-widest">Brand Identity</span>
+                        <h4 class="font-bold text-xl mt-1">GreenGo</h4>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="bg-white rounded-[2rem] p-4 shadow-card hover:-translate-y-2 transition-transform cursor-pointer reveal group" style="transition-delay: 0.1s;">
+                    <div class="rounded-[1.5rem] overflow-hidden aspect-[4/3] mb-4 relative">
+                        <img src="images/portfolio-ramen.jpg" alt="Ngon Ngây Ngất - Bắt Deal Chất" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                    </div>
+                    <div class="px-2 pb-2">
+                        <span class="text-theme-coral font-bold text-xs uppercase tracking-widest">Social Media</span>
+                        <h4 class="font-bold text-xl mt-1">Ngon Ngây Ngất - Bắt Deal Chất</h4>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="bg-white rounded-[2rem] p-4 shadow-card hover:-translate-y-2 transition-transform cursor-pointer reveal group" style="transition-delay: 0.2s;">
+                    <div class="rounded-[1.5rem] overflow-hidden aspect-[4/3] mb-4 relative">
+                        <img src="images/portfolio-katinat.jpg" alt="Promo Nước Uống Katinat" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                    </div>
+                    <div class="px-2 pb-2">
+                        <span class="text-theme-coral font-bold text-xs uppercase tracking-widest">Campaign KV</span>
+                        <h4 class="font-bold text-xl mt-1">Promo Nước Uống Katinat</h4>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. CONTACT & FOOTER -->
+    <section id="contact" class="pt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-theme-dark rounded-[3rem] md:rounded-[4rem] p-8 md:p-16 text-center shadow-2xl relative overflow-hidden reveal">
+                <!-- Decorative Circle -->
+                <div class="absolute -top-32 -right-32 w-80 h-80 bg-theme-coral rounded-full opacity-20 blur-3xl"></div>
+                
+                <h2 class="font-headline text-4xl sm:text-5xl md:text-8xl uppercase tracking-wide text-white mb-6 relative z-10">
+                    Sẵn sàng <span class="text-theme-coral">Đồng Hành</span>
+                </h2>
+                <p class="text-gray-300 max-w-2xl mx-auto font-medium text-lg mb-10 relative z-10">
+                    Cam kết không ngừng học hỏi, chủ động đổi mới tư duy. Mong muốn tạo nên những chiến dịch ý nghĩa tại <strong class="text-white">Unilever Vietnam</strong>.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 relative z-10">
+                    <a href="mailto:ankhang@email.com" class="w-full sm:w-auto bg-theme-coral hover:bg-white hover:text-theme-coral text-white font-bold text-lg px-10 py-4 rounded-full transition-colors flex items-center justify-center gap-2">
+                        <i class="ph-bold ph-paper-plane-tilt"></i> Liên hệ ngay
+                    </a>
+                    <a href="#" class="w-full sm:w-auto bg-transparent border-2 border-white/30 hover:border-white text-white font-bold text-lg px-10 py-4 rounded-full transition-colors flex items-center justify-center gap-2">
+                        <i class="ph-bold ph-download-simple"></i> Tải CV
+                    </a>
+                </div>
+
+                <div class="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
+                    <div class="font-headline text-2xl tracking-wider text-white">ANKHANG</div>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-theme-coral transition-colors"><i class="ph-fill ph-linkedin-logo text-xl"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-theme-coral transition-colors"><i class="ph-fill ph-behance-logo text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script>
+        // Scroll Reveal Animation using Intersection Observer
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger on load
+
+        // Lightbox for award images (click a "Bảng Vàng" entry to view the full-size original)
+        function openLightbox(src, alt) {
+            document.getElementById("lightbox-img").src = src;
+            document.getElementById("lightbox-img").alt = alt;
+            document.getElementById("lightbox").classList.remove("hidden");
+            document.body.style.overflow = "hidden";
+        }
+        function closeLightbox() {
+            document.getElementById("lightbox").classList.add("hidden");
+            document.getElementById("lightbox-img").src = "";
+            document.body.style.overflow = "";
+        }
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") closeLightbox();
+        });
+    </script>
+
+    <!-- Lightbox overlay -->
+    <div id="lightbox" class="hidden fixed inset-0 z-[100] bg-black/85 flex items-center justify-center p-6 cursor-zoom-out" onclick="closeLightbox()">
+        <button type="button" onclick="closeLightbox()" class="absolute top-6 right-6 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-2xl">
+            <i class="ph-bold ph-x"></i>
+        </button>
+        <img id="lightbox-img" src="" alt="" class="max-w-full max-h-full rounded-2xl shadow-2xl cursor-default" onclick="event.stopPropagation()">
+    </div>
+</body>
+</html>

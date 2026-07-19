@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Ad Portfolio | Marketer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Rye&family=Special+Elite&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        headline: ['"Abril Fatface"', 'cursive'],
+                        subhead: ['Rye', 'cursive'],
+                        body: ['"Special Elite"', 'monospace'],
+                    },
+                    colors: {
+                        vintage: {
+                            paper: '#F5E6D3', // Faded newspaper
+                            ink: '#1A1A1A',   // Faded black
+                            red: '#B82121',   // Classic ad red
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #2c2c2c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* The Poster Canvas */
+        .vintage-poster {
+            background-color: #F5E6D3;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        /* Halftone dot effect for images */
+        .halftone {
+            filter: grayscale(100%) contrast(150%) sepia(20%);
+            mix-blend-mode: multiply;
+        }
+
+        /* Starburst Price Tag shape */
+        .starburst {
+            background: #B82121;
+            width: 120px;
+            height: 120px;
+            text-align: center;
+            color: #F5E6D3;
+            font-family: 'Abril Fatface', cursive;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: rotate(-15deg);
+            animation: pulse-slow 3s infinite;
+        }
+        .starburst::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #B82121;
+            transform: rotate(30deg);
+            z-index: -1;
+        }
+        .starburst::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #B82121;
+            transform: rotate(60deg);
+            z-index: -1;
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% { transform: rotate(-15deg) scale(1); }
+            50% { transform: rotate(-15deg) scale(1.05); }
+        }
+
+        /* Thick vintage borders */
+        .border-vintage {
+            border: 6px solid #1A1A1A;
+            outline: 2px solid #1A1A1A;
+            outline-offset: 4px;
+        }
+        
+        .divider-wavy {
+            background-image: radial-gradient(circle at 10px 0, transparent 10px, #1A1A1A 11px, #1A1A1A 12px, transparent 13px);
+            background-size: 20px 20px;
+            background-repeat: repeat-x;
+            height: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- POSTER CANVAS -->
+    <main class="vintage-poster w-full max-w-[800px] text-vintage-ink p-6 md:p-10 border-vintage relative overflow-hidden">
+        
+        <!-- Top Banner -->
+        <header class="text-center border-b-[4px] border-vintage-ink pb-4 mb-6">
+            <h3 class="font-body tracking-[0.2em] uppercase text-sm md:text-base font-bold mb-2">Lời khuyên từ các chuyên gia hàng đầu!</h3>
+            <h1 class="font-headline text-5xl md:text-7xl leading-[0.9] uppercase text-vintage-red">
+                Doanh Số<br>Đang Chạm Đáy?
+            </h1>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="grid md:grid-cols-12 gap-8 items-center mb-8 relative">
+            
+            <!-- Left Text Column -->
+            <div class="md:col-span-6 font-body">
+                <p class="font-bold text-xl mb-4 leading-tight">Đừng hoảng sợ! Đã có giải pháp TĂNG TRƯỞNG thần kỳ được chứng minh hiệu quả.</p>
+                <p class="text-sm mb-4 text-justify">Hàng ngàn doanh nghiệp đang chật vật với chi phí quảng cáo (CPA) đắt đỏ và Content nhạt nhẽo. Sự chú ý của khách hàng ngày càng ngắn lại. Bạn cần một <strong>"Bậc thầy Điều hướng Tâm lý"</strong> để cứu vãn chiến dịch!</p>
+                
+                <div class="border-2 border-vintage-ink p-4 bg-white/20 mt-6 relative transform rotate-1">
+                    <h4 class="font-subhead text-xl mb-2 text-vintage-red text-center">Xin Giới Thiệu:</h4>
+                    <h2 class="font-headline text-3xl md:text-4xl text-center leading-none">TRẦN THỊ C.</h2>
+                    <p class="text-center text-xs tracking-widest uppercase mt-2 font-bold">Creative Copywriter & Strategist</p>
+                </div>
+            </div>
+
+            <!-- Right Image Column -->
+            <div class="md:col-span-6 relative flex justify-center">
+                <!-- Starburst Badge -->
+                <div class="starburst -top-10 -right-6 md:-right-10 shadow-lg">
+                    <span class="text-xs tracking-widest">ĐẢM BẢO</span>
+                    <span class="text-3xl leading-none mt-1">100%</span>
+                    <span class="text-sm font-sans">SÁNG TẠO</span>
+                </div>
+
+                <!-- Vintage Portrait -->
+                <div class="border-4 border-vintage-ink bg-white p-2 transform -rotate-2">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Marketer Portrait" class="w-full h-auto halftone">
+                </div>
+            </div>
+        </div>
+
+        <div class="divider-wavy mb-8"></div>
+
+        <!-- Features / Skills (Bullet points) -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8 text-center">
+            <div>
+                <i class="ph-fill ph-pen-nib text-4xl text-vintage-red mb-2"></i>
+                <h4 class="font-headline text-2xl mb-1">Từ Ngữ Thôi Miên</h4>
+                <p class="font-body text-xs">Viết kịch bản, Slogan, Landing Page khiến khách hàng không thể rời mắt.</p>
+            </div>
+            <div>
+                <i class="ph-fill ph-lightbulb text-4xl text-vintage-red mb-2"></i>
+                <h4 class="font-headline text-2xl mb-1">Ý Tưởng Bùng Nổ</h4>
+                <p class="font-body text-xs">Lên Concept Viral Campaign 360 độ cho các nhãn hàng FMCG & Thời trang.</p>
+            </div>
+            <div>
+                <i class="ph-fill ph-chart-line-up text-4xl text-vintage-red mb-2"></i>
+                <h4 class="font-headline text-2xl mb-1">X3 Lượt Chuyển Đổi</h4>
+                <p class="font-body text-xs">Không chỉ viết hay, mọi nội dung đều nhắm đích tạo ra Doanh thu thực tế.</p>
+            </div>
+        </div>
+
+        <!-- Bottom Call to Action -->
+        <footer class="border-t-[4px] border-vintage-ink pt-6 flex flex-col md:flex-row items-center justify-between bg-vintage-ink text-vintage-paper p-6 transform -rotate-1 shadow-xl">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+                <p class="font-subhead text-xl text-vintage-red">GỌI NGAY HÔM NAY!</p>
+                <p class="font-body text-sm">Để nhận báo giá và tư vấn chiến lược Miễn Phí.</p>
+            </div>
+            
+            <div class="bg-vintage-paper text-vintage-ink border-2 border-vintage-red px-6 py-3 text-center">
+                <p class="font-body text-xs font-bold uppercase mb-1">Hotline Phép Màu:</p>
+                <p class="font-headline text-3xl">090.123.4567</p>
+                <p class="font-body text-[10px] mt-1">hoặc gửi thư qua: thecreative@email.com</p>
+            </div>
+        </footer>
+
+    </main>
+</body>
+</html>

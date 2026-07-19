@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whiteboard Strategy | Brand Manager</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Kalam:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        marker: ['"Kalam"', 'cursive'],
+                        hand: ['"Patrick Hand"', 'cursive'],
+                        note: ['"Caveat"', 'cursive'],
+                    },
+                    colors: {
+                        board: '#fcfcfc',
+                        marker: {
+                            red: '#e53e3e',
+                            blue: '#3182ce',
+                            black: '#2d3748'
+                        },
+                        sticky: {
+                            yellow: '#fef08a',
+                            pink: '#fbcfe8',
+                            green: '#bbf7d0',
+                            blue: '#bae6fd'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #cbd5e1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* The Whiteboard Canvas */
+        .whiteboard {
+            background-color: #ffffff;
+            /* Faint dot grid for whiteboards */
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 20px 20px;
+            box-shadow: 
+                0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                inset 0 0 40px rgba(0,0,0,0.02);
+            border-radius: 12px;
+            border: 4px solid #e2e8f0;
+            position: relative;
+        }
+
+        /* Hand-drawn circle effect */
+        .hand-circle {
+            border: 3px solid #e53e3e;
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+            padding: 0.5rem 1rem;
+        }
+        
+        .hand-underline {
+            position: relative;
+        }
+        .hand-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #3182ce;
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+            transform: rotate(-1deg);
+        }
+
+        /* Sticky Note CSS */
+        .sticky-note {
+            padding: 1.5rem;
+            box-shadow: 3px 4px 10px rgba(0,0,0,0.15);
+            position: relative;
+            /* A slight paper texture */
+            background-image: linear-gradient(rgba(255,255,255,0.2) 1px, transparent 1px);
+            background-size: 100% 1.5rem;
+            transition: transform 0.2s;
+        }
+        .sticky-note:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            z-index: 20;
+        }
+        
+        /* Folded corner effect for sticky notes */
+        .sticky-note::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border-width: 15px 15px 0 0;
+            border-style: solid;
+            border-color: rgba(0,0,0,0.1) white;
+            box-shadow: -2px -2px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Tape */
+        .tape {
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            width: 80px;
+            height: 25px;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+        }
+
+        /* Hand-drawn Arrow using SVG */
+        .arrow-svg {
+            position: absolute;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- THE WHITEBOARD CANVAS -->
+    <main class="whiteboard w-full max-w-[900px] h-auto min-h-[700px] p-8 md:p-12 text-marker-black overflow-hidden relative">
+        
+        <!-- Big Marker Title -->
+        <div class="text-center mb-16 relative z-10">
+            <h1 class="font-marker text-4xl md:text-6xl text-marker-black leading-tight transform -rotate-2">
+                PROJECT: <span class="text-marker-blue hand-underline">TÌM KIẾM BRAND MANAGER</span>
+            </h1>
+            <p class="font-hand text-xl mt-4 text-marker-red flex items-center justify-center gap-2 transform rotate-1">
+                <i class="ph ph-arrow-bend-down-right"></i> Giải pháp duy nhất ở đây!
+            </p>
+        </div>
+
+        <!-- Canvas Area for Notes -->
+        <div class="relative h-[450px] w-full">
+            
+            <!-- Sticky 1: The Problem -->
+            <div class="sticky-note bg-sticky-pink w-48 md:w-56 absolute top-0 left-0 md:left-10 transform -rotate-3 z-10">
+                <div class="tape"></div>
+                <h3 class="font-marker text-xl font-bold mb-2 text-red-700">Vấn Đề:</h3>
+                <ul class="font-note text-xl leading-tight space-y-1">
+                    <li>- Brand mờ nhạt.</li>
+                    <li>- Tiêu nhiều tiền Ads nhưng không ai nhớ.</li>
+                    <li>- Khủng hoảng truyền thông.</li>
+                </ul>
+            </div>
+
+            <!-- Hand-drawn SVG Arrow from Problem to Me -->
+            <svg class="arrow-svg hidden md:block top-16 left-[220px] w-[150px] h-[100px]" preserveAspectRatio="none" viewBox="0 0 100 100">
+                <path d="M 0 20 Q 50 -10 90 50" fill="none" stroke="#2d3748" stroke-width="3" stroke-dasharray="5,5" />
+                <polygon points="85,45 95,50 85,55" fill="#2d3748" />
+            </svg>
+
+            <!-- Sticky 2: The Solution (ME) -->
+            <div class="sticky-note bg-sticky-yellow w-64 md:w-72 absolute top-10 md:top-20 left-[20%] md:left-[35%] transform rotate-2 z-20">
+                <div class="tape" style="transform: translateX(-50%) rotate(3deg);"></div>
+                <h3 class="font-marker text-2xl font-bold mb-1 text-center">THE SOLUTION 💡</h3>
+                <div class="text-center mb-2">
+                    <span class="font-marker text-3xl text-marker-blue font-bold hand-circle">LÊ VĂN BRAND</span>
+                </div>
+                <p class="font-hand text-lg text-center font-bold mb-2">Senior Brand Strategist</p>
+                <p class="font-note text-xl leading-tight text-center">"Người định vị thương hiệu vào tâm trí khách hàng."</p>
+            </div>
+
+            <!-- Hand-drawn SVG Arrow from Me to Results -->
+            <svg class="arrow-svg hidden md:block top-[200px] left-[550px] w-[120px] h-[100px]" preserveAspectRatio="none" viewBox="0 0 100 100">
+                <path d="M 10 10 Q 80 20 90 80" fill="none" stroke="#e53e3e" stroke-width="4" />
+                <polygon points="85,75 90,85 95,75" fill="#e53e3e" />
+            </svg>
+
+            <!-- Sticky 3: Core Skills -->
+            <div class="sticky-note bg-sticky-blue w-52 md:w-60 absolute bottom-10 left-[10%] md:left-[20%] transform -rotate-6 z-10">
+                <div class="tape" style="background-color: rgba(255,0,0,0.2);"></div>
+                <h3 class="font-marker text-xl font-bold mb-2">Vũ Khí Sở Hữu:</h3>
+                <ul class="font-note text-xl leading-tight space-y-2">
+                    <li><i class="ph-fill ph-check-square"></i> Market Research</li>
+                    <li><i class="ph-fill ph-check-square"></i> Campaign Planning (IMC)</li>
+                    <li><i class="ph-fill ph-check-square"></i> Budget Control</li>
+                    <li><i class="ph-fill ph-check-square"></i> Storytelling</li>
+                </ul>
+            </div>
+
+            <!-- Sticky 4: Results/Proof -->
+            <div class="sticky-note bg-sticky-green w-48 md:w-56 absolute bottom-0 md:bottom-10 right-0 md:right-10 transform rotate-3 z-10">
+                <div class="tape"></div>
+                <h3 class="font-marker text-xl font-bold mb-2">Kết quả (KPI):</h3>
+                <div class="font-note text-2xl leading-tight space-y-2 text-green-800">
+                    <p>🏆 <b>Top 3</b> Brand Awareness (FMCG)</p>
+                    <p>📈 <b>+200%</b> Share of Voice</p>
+                    <p>🌟 Giải thưởng Vạn Xuân 2024</p>
+                </div>
+            </div>
+
+            <!-- Random Marker Doodles -->
+            <div class="absolute top-0 right-10 font-marker text-marker-red text-2xl transform rotate-12 opacity-80">
+                * URGENT *
+            </div>
+            <div class="absolute bottom-1/2 right-1/4 font-hand text-marker-blue text-4xl">
+                <i class="ph ph-asterisk"></i>
+            </div>
+        </div>
+
+        <!-- Bottom Contact Action (Drawn as a card taped to the board) -->
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-80 bg-white border-2 border-dashed border-gray-400 p-4 shadow-md rotate-1 hover:rotate-0 transition-transform">
+            <div class="tape" style="top: -12px;"></div>
+            <p class="font-marker text-center text-lg mb-1">Book lịch Brainstorming:</p>
+            <div class="flex justify-center items-center gap-4 font-hand text-xl">
+                <a href="tel:0987654321" class="text-marker-blue hover:underline"><i class="ph ph-phone"></i> 0987.654.321</a>
+                <a href="mailto:brand@email.com" class="text-marker-red hover:underline"><i class="ph ph-envelope"></i> Email</a>
+            </div>
+        </div>
+
+    </main>
+</body>
+</html>

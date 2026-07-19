@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bản Vẽ Portfolio | KTS. Nguyễn Văn E</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        blueprint: {
+                            bg: '#0F3381',     // Classic Blueprint Blue
+                            line: '#4A6FA5',   // Faded line
+                            bright: '#FFFFFF', // White lines
+                            accent: '#00F0FF'  // Cyan accent
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #0F3381;
+            /* Create the blueprint grid pattern */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+                linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+            background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+            color: #FFFFFF;
+        }
+
+        /* Dimension line styles */
+        .dimension-x {
+            position: relative;
+            border-bottom: 1px solid #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .dimension-x::before, .dimension-x::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            width: 1px;
+            height: 10px;
+            background-color: #fff;
+        }
+        .dimension-x::before { left: 0; }
+        .dimension-x::after { right: 0; }
+        .dimension-x span {
+            position: relative;
+            top: -10px;
+            background-color: #0F3381;
+            padding: 0 10px;
+            font-size: 12px;
+        }
+
+        /* Border box mimicking CAD title block */
+        .title-block {
+            border: 2px solid #fff;
+        }
+        .title-block-cell {
+            border: 1px solid #fff;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 font-mono selection:bg-white selection:text-blueprint-bg">
+
+    <!-- Outer CAD Frame -->
+    <main class="w-full max-w-6xl mx-auto border-[3px] border-white p-4 md:p-6 relative flex flex-col min-h-[90vh]">
+        
+        <!-- Registration marks -->
+        <div class="absolute -top-3 -left-3 w-6 h-6 border-2 border-white rounded-full flex items-center justify-center bg-blueprint-bg"><div class="w-1 h-6 bg-white absolute"></div><div class="w-6 h-1 bg-white absolute"></div></div>
+        <div class="absolute -top-3 -right-3 w-6 h-6 border-2 border-white rounded-full flex items-center justify-center bg-blueprint-bg"><div class="w-1 h-6 bg-white absolute"></div><div class="w-6 h-1 bg-white absolute"></div></div>
+        <div class="absolute -bottom-3 -left-3 w-6 h-6 border-2 border-white rounded-full flex items-center justify-center bg-blueprint-bg"><div class="w-1 h-6 bg-white absolute"></div><div class="w-6 h-1 bg-white absolute"></div></div>
+        <div class="absolute -bottom-3 -right-3 w-6 h-6 border-2 border-white rounded-full flex items-center justify-center bg-blueprint-bg"><div class="w-1 h-6 bg-white absolute"></div><div class="w-6 h-1 bg-white absolute"></div></div>
+
+        <!-- Main Content Area -->
+        <div class="flex-grow grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8 relative">
+            
+            <!-- Left Panel: Concept / Wireframe -->
+            <div class="lg:col-span-8 flex flex-col">
+                <div class="dimension-x text-blueprint-accent">
+                    <span>ELEVATION A (KỸ NĂNG & KINH NGHIỆM)</span>
+                </div>
+                
+                <div class="border border-white/50 p-6 flex-grow relative bg-blueprint-bg/80 backdrop-blur-sm">
+                    <!-- Tech Specs / Skills as structural elements -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-8 text-sm">
+                        
+                        <!-- Skill Pillar 1 -->
+                        <div class="border-l-2 border-dashed border-white pl-4 relative">
+                            <div class="absolute -left-[5px] top-0 w-2 h-2 bg-white rounded-full"></div>
+                            <h3 class="text-blueprint-accent font-bold mb-2">AUTOCAD & REVIT</h3>
+                            <p class="text-xs text-white/70 mb-2">BIM Modeling, 2D Drafting</p>
+                            <div class="w-full h-1 border border-white mt-4"><div class="h-full bg-white w-[95%]"></div></div>
+                            <p class="text-[10px] mt-1 text-right">Lvl: EXPERT</p>
+                        </div>
+
+                        <!-- Skill Pillar 2 -->
+                        <div class="border-l-2 border-dashed border-white pl-4 relative">
+                            <div class="absolute -left-[5px] top-0 w-2 h-2 bg-white rounded-full"></div>
+                            <h3 class="text-blueprint-accent font-bold mb-2">3DS MAX & CORONA</h3>
+                            <p class="text-xs text-white/70 mb-2">Archviz, Lighting, Texturing</p>
+                            <div class="w-full h-1 border border-white mt-4"><div class="h-full bg-white w-[85%]"></div></div>
+                            <p class="text-[10px] mt-1 text-right">Lvl: ADVANCED</p>
+                        </div>
+
+                        <!-- Skill Pillar 3 -->
+                        <div class="border-l-2 border-dashed border-white pl-4 relative">
+                            <div class="absolute -left-[5px] top-0 w-2 h-2 bg-white rounded-full"></div>
+                            <h3 class="text-blueprint-accent font-bold mb-2">CONCEPT DESIGN</h3>
+                            <p class="text-xs text-white/70 mb-2">Space Planning, SketchUp</p>
+                            <div class="w-full h-1 border border-white mt-4"><div class="h-full bg-white w-[90%]"></div></div>
+                            <p class="text-[10px] mt-1 text-right">Lvl: SENIOR</p>
+                        </div>
+                    </div>
+
+                    <!-- "Structural" details (Projects) -->
+                    <div class="mt-12 border-t-2 border-white/30 pt-6">
+                        <h3 class="text-blueprint-accent font-bold mb-6 flex items-center gap-2">
+                            <i class="ph ph-buildings text-xl"></i> STRUCTURAL DETAILS (DỰ ÁN)
+                        </h3>
+                        <div class="space-y-6">
+                            <div class="flex gap-4 items-start hover:bg-white/5 p-2 transition-colors cursor-crosshair">
+                                <div class="w-12 text-xs text-blueprint-accent opacity-70 mt-1">PRJ_01</div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Biệt thự ven hồ (Hồ Tây)</h4>
+                                    <p class="text-xs text-white/70 mb-1">Giai đoạn: Hoàn thành (2025) | Diện tích: 450m2</p>
+                                    <p class="text-sm">Chủ trì thiết kế nội thất phong cách Indochine hiện đại. Triển khai bản vẽ kỹ thuật thi công và giám sát tác giả.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4 items-start hover:bg-white/5 p-2 transition-colors cursor-crosshair">
+                                <div class="w-12 text-xs text-blueprint-accent opacity-70 mt-1">PRJ_02</div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Chuỗi Cafe Katinat (Mở rộng)</h4>
+                                    <p class="text-xs text-white/70 mb-1">Giai đoạn: Đang thi công | Quy mô: 3 chi nhánh</p>
+                                    <p class="text-sm">Lên concept 3D và render hình ảnh thương mại. Đảm bảo tính đồng bộ nhận diện thương hiệu.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Visual / Render -->
+            <div class="lg:col-span-4 flex flex-col">
+                <div class="dimension-x text-blueprint-accent">
+                    <span>SECTION B-B (RENDER 3D)</span>
+                </div>
+                <!-- Blueprint style image filter -->
+                <div class="border border-white/50 p-2 h-64 lg:h-full relative overflow-hidden group">
+                    <img src="https://images.unsplash.com/photo-1600607688969-a5bfcd64bd28?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Architecture Render" class="w-full h-full object-cover filter contrast-125 sepia-[0.8] hue-rotate-[190deg] saturate-[2] brightness-[0.7] opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                    
+                    <!-- Overlay Grid & Crosshairs -->
+                    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+')] pointer-events-none"></div>
+                    <i class="ph ph-crosshair absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl text-white/50 pointer-events-none"></i>
+                    
+                    <div class="absolute bottom-4 right-4 bg-blueprint-bg border border-white px-2 py-1 text-xs">
+                        SCALE 1:100
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom CAD Title Block -->
+        <div class="mt-auto title-block w-full bg-blueprint-bg/90 backdrop-blur">
+            <div class="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 text-xs">
+                
+                <!-- Notes -->
+                <div class="title-block-cell col-span-2 md:col-span-6 lg:col-span-5 flex flex-col justify-between">
+                    <span class="text-blueprint-accent font-bold uppercase mb-2 block border-b border-white/30 pb-1">Notes / Ghi chú</span>
+                    <ul class="list-disc list-inside text-[10px] text-white/80 space-y-1">
+                        <li>Luôn kiểm tra kích thước thực tế tại công trình (Verify in field).</li>
+                        <li>Đam mê kiến trúc bền vững & Minimalist.</li>
+                        <li>Sẵn sàng đi công tác và OT khi dự án vào giai đoạn Rush.</li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="title-block-cell col-span-2 md:col-span-3 lg:col-span-3">
+                    <span class="text-blueprint-accent font-bold uppercase mb-2 block border-b border-white/30 pb-1">Contact (Liên hệ)</span>
+                    <div class="space-y-1 text-[11px]">
+                        <p>TEL: <span class="font-bold">090.888.9999</span></p>
+                        <p>EMAIL: <span class="font-bold hover:text-blueprint-accent cursor-pointer">architect@email.com</span></p>
+                        <p>LOC: <span class="font-bold">Quận 1, TP.HCM</span></p>
+                    </div>
+                </div>
+
+                <!-- Revision / Date -->
+                <div class="title-block-cell col-span-1 md:col-span-1 lg:col-span-1 text-center flex flex-col justify-between">
+                    <span class="text-blueprint-accent font-bold uppercase border-b border-white/30 pb-1">Rev</span>
+                    <span class="text-xl font-bold">02</span>
+                </div>
+                <div class="title-block-cell col-span-1 md:col-span-2 lg:col-span-1 text-center flex flex-col justify-between">
+                    <span class="text-blueprint-accent font-bold uppercase border-b border-white/30 pb-1">Date</span>
+                    <span class="font-bold">18.07.26</span>
+                </div>
+
+                <!-- Project Title / Name (Biggest) -->
+                <div class="title-block-cell col-span-2 md:col-span-6 lg:col-span-2 bg-white text-blueprint-bg flex flex-col justify-center items-center text-center p-2 relative overflow-hidden group cursor-pointer">
+                    <!-- Hover effect to simulate downloading PDF -->
+                    <div class="absolute inset-0 bg-blueprint-accent flex flex-col items-center justify-center translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <i class="ph-fill ph-download-simple text-2xl"></i>
+                        <span class="font-bold text-xs uppercase mt-1">Download CV</span>
+                    </div>
+                    
+                    <span class="text-[10px] font-bold uppercase tracking-widest mb-1 text-blueprint-bg/70">Lead Architect</span>
+                    <h1 class="text-xl md:text-2xl font-black uppercase leading-none text-center">Nguyễn Văn E</h1>
+                    <span class="text-[10px] mt-1 border-t border-blueprint-bg/30 pt-1 w-full uppercase">Sheet: CV-01</span>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

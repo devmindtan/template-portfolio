@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYS.PROFILE // NGUYEN VAN B</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"Share Tech Mono"', 'monospace'],
+                        display: ['Syncopate', 'sans-serif'],
+                    },
+                    colors: {
+                        neon: {
+                            cyan: '#00f3ff',
+                            pink: '#ff003c',
+                            green: '#00ff41',
+                            dark: '#050505'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #050505;
+            color: #00f3ff;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(0, 243, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 60, 0.05) 0%, transparent 40%);
+        }
+
+        /* CRT Scanline effect */
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.5;
+        }
+
+        .glow-cyan { text-shadow: 0 0 10px rgba(0, 243, 255, 0.7); }
+        .glow-pink { text-shadow: 0 0 10px rgba(255, 0, 60, 0.7); }
+        .box-glow { box-shadow: 0 0 20px rgba(0, 243, 255, 0.15), inset 0 0 20px rgba(0, 243, 255, 0.05); }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid #00f3ff;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 2.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #00f3ff; } }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 md:p-8 font-mono selection:bg-neon-pink selection:text-white">
+
+    <div class="scanlines"></div>
+
+    <!-- POSTER WRAPPER -->
+    <main class="w-full max-w-4xl bg-neon-dark/90 backdrop-blur-md border border-neon-cyan p-1 box-glow relative overflow-hidden group">
+        
+        <div class="border border-neon-cyan/30 p-6 md:p-10 relative h-full">
+            
+            <!-- Tech Accents -->
+            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-neon-pink"></div>
+            <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-neon-pink"></div>
+            <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-neon-pink"></div>
+            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-neon-pink"></div>
+
+            <!-- Header -->
+            <header class="flex justify-between items-end border-b border-neon-cyan/20 pb-4 mb-8">
+                <div>
+                    <p class="text-neon-pink text-xs tracking-[0.2em] mb-1">SYS_OP: ROOT</p>
+                    <p class="text-xs text-neon-cyan/60">FILE: DEVELOPER_PORTFOLIO_v3.0.exe</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-neon-green animate-pulse text-sm font-bold">[ SYSTEM ONLINE ]</p>
+                    <p class="text-xs text-neon-cyan/50 mt-1">LVL: SENIOR</p>
+                </div>
+            </header>
+
+            <div class="grid md:grid-cols-12 gap-8 items-center">
+                <!-- Avatar / Visuals -->
+                <div class="md:col-span-5 relative group-hover:scale-[1.02] transition-transform duration-500">
+                    <div class="aspect-[3/4] border border-neon-cyan/50 relative overflow-hidden bg-black p-2">
+                        <!-- Coder Portrait Image -->
+                        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hacker Matrix" class="w-full h-full object-cover filter grayscale contrast-125 opacity-80 mix-blend-screen" />
+                        
+                        <!-- Overlay code -->
+                        <div class="absolute inset-0 p-4 text-[8px] text-neon-green/30 font-mono break-words leading-tight overflow-hidden mix-blend-overlay">
+                            01001110 01000111 01010101 01011001 01000101 01001110<br>
+                            function hackTheWorld() {<br>
+                            &nbsp;&nbsp;while(coffee > 0) { code(); }<br>
+                            }<br>
+                            ERROR 404: SLEEP NOT FOUND
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Profile -->
+                <div class="md:col-span-7 flex flex-col justify-center">
+                    <h2 class="text-neon-pink text-lg tracking-[0.4em] mb-2 glow-pink">> IDENTIFICATION</h2>
+                    <h1 class="font-display font-bold text-5xl md:text-6xl text-white uppercase tracking-tighter leading-[0.9] mb-4">
+                        NGUYỄN VĂN<br><span class="text-neon-cyan glow-cyan">DEV</span>
+                    </h1>
+                    
+                    <div class="inline-block bg-neon-cyan/10 border border-neon-cyan/30 px-3 py-1 text-sm text-neon-cyan mb-8 typewriter">
+                        Fullstack Engineer & Web3 Architect_
+                    </div>
+
+                    <!-- Terminal Data -->
+                    <div class="bg-black border border-neon-cyan/20 p-5 font-mono text-sm space-y-4 shadow-[4px_4px_0_0_rgba(0,243,255,0.2)]">
+                        <div>
+                            <span class="text-neon-pink">~/skills $</span> ls -la
+                            <div class="grid grid-cols-2 gap-2 mt-2 text-neon-cyan/80">
+                                <span>-rw-r--r-- React.js</span>
+                                <span>-rw-r--r-- Node.js</span>
+                                <span>-rwxr-xr-x Python</span>
+                                <span>-rw-r--r-- Solidity</span>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-neon-pink">~/stats $</span> ./get_metrics.sh
+                            <ul class="mt-2 text-neon-green">
+                                <li>> Projects_Deployed: 42</li>
+                                <li>> Commits_This_Year: 2048</li>
+                                <li>> Coffee_Consumed: MAX_INT</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Action -->
+            <footer class="mt-12 pt-6 border-t border-neon-cyan/20 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex gap-4 text-xs text-neon-cyan/60">
+                    <a href="#" class="hover:text-neon-cyan transition-colors">[GITHUB]</a>
+                    <a href="#" class="hover:text-neon-cyan transition-colors">[LINKEDIN]</a>
+                    <a href="#" class="hover:text-neon-cyan transition-colors">[TWITTER]</a>
+                </div>
+                
+                <a href="mailto:dev@cyber.com" class="bg-neon-pink text-white font-display font-bold px-8 py-3 uppercase tracking-widest text-sm hover:bg-white hover:text-neon-pink transition-all duration-300 shadow-[0_0_15px_rgba(255,0,60,0.5)]">
+                    INIT_CONTACT()
+                </a>
+            </footer>
+
+        </div>
+    </main>
+
+</body>
+</html>

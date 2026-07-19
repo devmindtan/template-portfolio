@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Portfolio | Video Editor</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'], // Standard UI font
+                        mono: ['"Space Mono"', 'monospace'], // For Timecodes
+                    },
+                    colors: {
+                        nle: {
+                            bg: '#181818',       // Dark UI background
+                            panel: '#252525',    // Lighter panel bg
+                            border: '#333333',   // Panel borders
+                            playhead: '#ff3333', // Red playhead line
+                            blue: '#4a82c4',     // Video clip color 1
+                            purple: '#a668c2',   // Video clip color 2
+                            green: '#439c6b',    // Audio clip color
+                            text: '#cccccc',     // Standard UI text
+                            highlight: '#ffffff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #181818;
+            color: #cccccc;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: #1e1e1e; border: 1px solid #333; }
+        ::-webkit-scrollbar-thumb { background: #555; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #777; }
+
+        .clip {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #fff;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2);
+            transition: filter 0.2s;
+            cursor: pointer;
+        }
+        .clip:hover { filter: brightness(1.2); }
+        
+        /* Stripes for audio clips to make them look wavy/textured */
+        .clip-audio::after {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+            background-size: 8px 100%;
+            pointer-events: none;
+        }
+
+        /* Playhead animation across the timeline */
+        @keyframes playheadMove {
+            0% { left: 10%; }
+            100% { left: 85%; }
+        }
+        .playhead-container {
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 2px;
+            background-color: #ff3333;
+            z-index: 50;
+            /* Simple continuous animation */
+            animation: playheadMove 20s linear infinite alternate;
+        }
+        .playhead-head {
+            position: absolute;
+            top: 0;
+            left: -6px;
+            width: 14px;
+            height: 14px;
+            background-color: #ff3333;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+        }
+    </style>
+</head>
+<body class="h-screen w-full flex flex-col font-sans text-sm selection:bg-nle-playhead selection:text-white">
+
+    <!-- TOP MENUBAR -->
+    <header class="h-8 bg-nle-panel border-b border-nle-border flex items-center px-4 text-xs gap-4 text-nle-text">
+        <div class="flex items-center gap-1 font-bold text-nle-highlight">
+            <i class="ph-fill ph-video-camera"></i> Pr
+        </div>
+        <div class="flex gap-4">
+            <span class="hover:text-white cursor-pointer">File</span>
+            <span class="hover:text-white cursor-pointer">Edit</span>
+            <span class="hover:text-white cursor-pointer">Clip</span>
+            <span class="hover:text-white cursor-pointer">Sequence</span>
+            <span class="text-nle-highlight font-medium cursor-default">Portfolio_Final_v3.prproj</span>
+        </div>
+    </header>
+
+    <!-- UPPER WORKSPACE (Program Monitor & Info) -->
+    <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-1 p-1 bg-nle-border">
+        
+        <!-- Left Panel: Project Info / Bio -->
+        <div class="bg-nle-panel h-full flex flex-col">
+            <div class="h-6 bg-[#1e1e1e] border-b border-nle-border flex items-center px-2 text-xs font-bold gap-4">
+                <span class="text-white border-b-2 border-nle-highlight pb-[2px]">Project: ABOUT_ME</span>
+                <span class="text-nle-text/60">Effects</span>
+            </div>
+            <div class="p-6 flex-1 overflow-y-auto">
+                <h1 class="text-3xl font-bold text-white mb-2 uppercase">Lê Trần <span class="text-nle-playhead">Dựng</span></h1>
+                <h2 class="text-nle-text mb-6 font-mono text-sm uppercase tracking-widest border-b border-nle-border pb-2">Senior Video Editor / Colorist</h2>
+                
+                <p class="text-sm leading-relaxed mb-6">
+                    Biến những source quay thô ráp thành những câu chuyện điện ảnh có nhịp điệu. 
+                    Thế mạnh ở mảng Commercial (TVC), MV ca nhạc và Tối ưu hóa luồng làm việc (Workflow).
+                </p>
+
+                <div class="grid grid-cols-2 gap-4 text-xs mb-6">
+                    <div>
+                        <p class="text-white font-bold mb-2 uppercase text-[10px]">Phần mềm (Software)</p>
+                        <ul class="space-y-1">
+                            <li><i class="ph-fill ph-check-circle text-nle-blue"></i> Premiere Pro (Expert)</li>
+                            <li><i class="ph-fill ph-check-circle text-nle-purple"></i> DaVinci Resolve (Color)</li>
+                            <li><i class="ph-fill ph-check-circle text-nle-green"></i> After Effects (Motion)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-white font-bold mb-2 uppercase text-[10px]">Liên hệ (Export To)</p>
+                        <ul class="space-y-1">
+                            <li><a href="mailto:editor@email.com" class="hover:text-white"><i class="ph-fill ph-envelope"></i> editor@email.com</a></li>
+                            <li><a href="#" class="hover:text-white"><i class="ph-fill ph-phone"></i> 090 123 4567</a></li>
+                            <li><a href="#" class="hover:text-white"><i class="ph-fill ph-youtube-logo text-nle-playhead"></i> Showreel 2026</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button class="bg-nle-border hover:bg-[#444] text-white px-4 py-2 rounded text-xs font-bold w-full transition-colors flex items-center justify-center gap-2">
+                    <i class="ph-fill ph-download-simple"></i> Render CV (PDF)
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Panel: Program Monitor (Showreel Mockup) -->
+        <div class="bg-nle-panel h-full flex flex-col">
+            <div class="h-6 bg-[#1e1e1e] border-b border-nle-border flex items-center px-2 text-xs font-bold gap-4">
+                <span class="text-white border-b-2 border-nle-highlight pb-[2px]">Program: SHOWREEL</span>
+            </div>
+            <div class="flex-1 flex flex-col p-2 bg-black">
+                <!-- Video Area -->
+                <div class="flex-1 relative group cursor-pointer">
+                    <!-- Placeholder for Showreel video/image -->
+                    <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Cinematic Frame" class="w-full h-full object-cover rounded-sm filter brightness-75 group-hover:brightness-100 transition-all">
+                    
+                    <!-- Play Button Overlay -->
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity">
+                        <i class="ph-fill ph-play-circle text-6xl text-white drop-shadow-lg"></i>
+                    </div>
+
+                    <!-- Overlay Safe Margins (Cinematic feel) -->
+                    <div class="absolute inset-4 border border-white/20 pointer-events-none"></div>
+                    <div class="absolute inset-8 border border-white/10 pointer-events-none"></div>
+                </div>
+                
+                <!-- Monitor Controls & Timecode -->
+                <div class="h-10 mt-2 flex justify-between items-center px-4">
+                    <div class="text-nle-blue font-mono font-bold text-lg tracking-wider" id="timecode">00:00:00:00</div>
+                    <div class="flex gap-4 text-xl text-nle-text">
+                        <i class="ph-fill ph-skip-back hover:text-white cursor-pointer"></i>
+                        <i class="ph-fill ph-play hover:text-white cursor-pointer"></i>
+                        <i class="ph-fill ph-skip-forward hover:text-white cursor-pointer"></i>
+                    </div>
+                    <div class="text-nle-text font-mono text-sm">Fit</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOWER WORKSPACE (Timeline - The core of the portfolio) -->
+    <div class="h-[45vh] bg-nle-panel border-t-2 border-[#111] flex flex-col relative overflow-hidden">
+        
+        <!-- Timeline Header -->
+        <div class="h-6 bg-[#1e1e1e] border-b border-nle-border flex items-center px-2 text-xs font-bold gap-4 z-10">
+            <span class="text-white border-b-2 border-nle-highlight pb-[2px]">Timeline: KINH NGHIỆM LÀM VIỆC</span>
+        </div>
+
+        <!-- Ruler / Time markers -->
+        <div class="h-6 border-b border-nle-border flex relative text-[10px] text-nle-text/50 font-mono items-end pb-1 bg-nle-bg/50">
+            <div class="absolute left-[10%]">2022</div>
+            <div class="absolute left-[30%]">2023</div>
+            <div class="absolute left-[50%]">2024</div>
+            <div class="absolute left-[70%]">2025</div>
+            <div class="absolute left-[90%]">2026</div>
+        </div>
+
+        <!-- The Timeline Area (Scrollable horizontal) -->
+        <div class="flex-1 overflow-x-auto overflow-y-hidden relative bg-nle-bg flex">
+            
+            <!-- Left Track Headers (V3, V2, V1, A1, A2) -->
+            <div class="w-32 bg-nle-panel border-r border-nle-border flex flex-col z-20 sticky left-0 shadow-lg">
+                <!-- Video Tracks -->
+                <div class="flex-1 flex flex-col justify-center border-b border-nle-border p-2 gap-1 group">
+                    <div class="flex justify-between items-center text-xs"><span class="font-bold text-nle-blue">V3</span> <i class="ph-fill ph-eye"></i></div>
+                    <div class="text-[10px] text-nle-text/60">Dự án Cá nhân</div>
+                </div>
+                <div class="flex-1 flex flex-col justify-center border-b border-nle-border p-2 gap-1 group">
+                    <div class="flex justify-between items-center text-xs"><span class="font-bold text-nle-blue">V2</span> <i class="ph-fill ph-eye"></i></div>
+                    <div class="text-[10px] text-nle-text/60">Agency (TVC)</div>
+                </div>
+                <div class="flex-1 flex flex-col justify-center border-b-[3px] border-black p-2 gap-1 group">
+                    <div class="flex justify-between items-center text-xs"><span class="font-bold text-nle-blue">V1</span> <i class="ph-fill ph-eye"></i></div>
+                    <div class="text-[10px] text-nle-text/60">In-house Media</div>
+                </div>
+                
+                <!-- Audio Tracks -->
+                <div class="flex-1 flex flex-col justify-center border-b border-nle-border p-2 gap-1 group">
+                    <div class="flex justify-between items-center text-xs"><span class="font-bold text-nle-green">A1</span> <i class="ph-fill ph-speaker-high"></i></div>
+                    <div class="text-[10px] text-nle-text/60">Học vấn</div>
+                </div>
+                <div class="flex-1 flex flex-col justify-center p-2 gap-1 group">
+                    <div class="flex justify-between items-center text-xs"><span class="font-bold text-nle-green">A2</span> <i class="ph-fill ph-speaker-high"></i></div>
+                    <div class="text-[10px] text-nle-text/60">Giải thưởng</div>
+                </div>
+            </div>
+
+            <!-- Track Content Area -->
+            <div class="flex-1 min-w-[800px] relative flex flex-col">
+                
+                <!-- PLAYHEAD (Red Line) -->
+                <div class="playhead-container">
+                    <div class="playhead-head"></div>
+                </div>
+
+                <!-- V3 Track -->
+                <div class="flex-1 border-b border-nle-border/50 relative">
+                    <div class="clip bg-nle-purple h-[70%] top-[15%] absolute left-[45%] w-[15%]" title="Kênh Youtube Cá Nhân (100k Subs)">
+                        <span class="truncate px-1 text-[10px]">Youtube: Tech Review</span>
+                    </div>
+                    <div class="clip bg-nle-purple h-[70%] top-[15%] absolute left-[75%] w-[20%]" title="Phim ngắn độc lập 'Đêm'">
+                        <span class="truncate px-1 text-[10px]">Shortfilm "Đêm" (Đạo diễn)</span>
+                    </div>
+                </div>
+
+                <!-- V2 Track -->
+                <div class="flex-1 border-b border-nle-border/50 relative">
+                    <div class="clip bg-nle-blue h-[70%] top-[15%] absolute left-[30%] w-[35%]" title="Editor tại XYZ Agency (TVC, MV)">
+                        <span class="truncate px-1">XYZ Agency - Video Editor</span>
+                    </div>
+                    <div class="clip bg-nle-blue h-[70%] top-[15%] absolute left-[68%] w-[25%]" title="Freelance Colorist (Chỉnh màu phim)">
+                        <span class="truncate px-1">Freelance Colorist</span>
+                    </div>
+                </div>
+
+                <!-- V1 Track (Main) -->
+                <div class="flex-1 border-b-[3px] border-black relative">
+                    <div class="clip bg-nle-blue h-[70%] top-[15%] absolute left-[5%] w-[22%]" title="Nhân viên quay/dựng FPT Shop">
+                        <span class="truncate px-1">In-house Editor - Retail Co.</span>
+                    </div>
+                    <div class="clip bg-nle-blue h-[70%] top-[15%] absolute left-[70%] w-[25%]" title="Trưởng nhóm Media">
+                        <span class="truncate px-1 font-bold">Media Team Lead (Hiện tại)</span>
+                    </div>
+                </div>
+
+                <!-- A1 Track (Education) -->
+                <div class="flex-1 border-b border-nle-border/50 relative">
+                    <div class="clip clip-audio bg-nle-green h-[70%] top-[15%] absolute left-[5%] w-[22%]" title="Cử nhân Truyền thông Đa phương tiện">
+                        <span class="truncate px-1 text-[10px] text-black font-bold z-10">Cử nhân Multimedia</span>
+                    </div>
+                    <div class="clip clip-audio bg-nle-green h-[70%] top-[15%] absolute left-[40%] w-[15%]" title="Khóa học Color Grading chuyên sâu">
+                        <span class="truncate px-1 text-[10px] text-black font-bold z-10">Color Grading Masterclass</span>
+                    </div>
+                </div>
+
+                <!-- A2 Track (Awards/Extras) -->
+                <div class="flex-1 relative">
+                    <div class="clip clip-audio bg-nle-green h-[70%] top-[15%] absolute left-[50%] w-[10%]" title="Giải Nhất cuộc thi làm phim ngắn 48h">
+                        <span class="truncate px-1 text-[10px] text-black font-bold z-10">48h Film Winner</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script to make the timecode look alive -->
+    <script>
+        const timecodeEl = document.getElementById('timecode');
+        let frames = 0;
+        let seconds = 24;
+        let minutes = 1;
+        let hours = 0;
+
+        function updateTimecode() {
+            frames++;
+            if (frames >= 24) { // Assuming 24fps
+                frames = 0;
+                seconds++;
+            }
+            if (seconds >= 60) {
+                seconds = 0;
+                minutes++;
+            }
+            if (minutes >= 60) {
+                minutes = 0;
+                hours++;
+            }
+
+            const pad = (num) => num.toString().padStart(2, '0');
+            timecodeEl.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}:${pad(frames)}`;
+        }
+
+        // Update timecode equivalent to 24fps (approx 41ms per frame)
+        setInterval(updateTimecode, 41);
+    </script>
+</body>
+</html>
