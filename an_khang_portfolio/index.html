@@ -4,7 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trần An Khang | Brand Marketing Portfolio</title>
-    
+    <meta name="description" content="Trần An Khang - Ứng viên Brand Marketing. Thủ khoa Trường ĐH Tài chính - Marketing, khao khát xây dựng thương hiệu bằng tư duy chiến lược và sáng tạo.">
+    <meta name="theme-color" content="#FF6262">
+
+    <!-- Favicon / app icons -->
+    <link rel="icon" href="images/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+
+    <!-- Open Graph (Facebook, Zalo, and most link-preview scrapers read these) -->
+    <meta property="og:type" content="profile">
+    <meta property="og:site_name" content="Trần An Khang Portfolio">
+    <meta property="og:title" content="Trần An Khang | Brand Marketing Portfolio">
+    <meta property="og:description" content="Ứng viên Brand Marketing - Thủ khoa Trường ĐH Tài chính - Marketing. Khác biệt bằng tư duy chiến lược, sáng tạo bằng những ý tưởng mang giá trị tích cực.">
+    <meta property="og:url" content="https://ankhangportfolio.vercel.app/">
+    <meta property="og:image" content="https://ankhangportfolio.vercel.app/images/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="vi_VN">
+
+    <!-- Twitter Card (falls back to Open Graph tags above if omitted, but explicit is safer) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Trần An Khang | Brand Marketing Portfolio">
+    <meta name="twitter:description" content="Ứng viên Brand Marketing - Thủ khoa Trường ĐH Tài chính - Marketing.">
+    <meta name="twitter:image" content="https://ankhangportfolio.vercel.app/images/og-image.jpg">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -124,8 +149,19 @@
             <a href="#contact" class="bg-theme-coral text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-red-500 transition-colors shadow-soft">
                 Hire Me
             </a>
+            <button type="button" onclick="toggleMobileMenu()" aria-label="Menu" class="md:hidden w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-theme-dark text-xl shrink-0">
+                <i class="ph-bold ph-list" id="mobile-menu-icon"></i>
+            </button>
         </div>
     </nav>
+
+    <!-- Mobile nav panel (hamburger toggle) -->
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-x-4 top-[92px] z-40 bg-white rounded-3xl shadow-2xl p-6 flex-col gap-1 font-semibold">
+        <a href="#about" onclick="toggleMobileMenu()" class="px-4 py-3 rounded-xl hover:bg-theme-bg hover:text-theme-coral transition-colors">Giới thiệu</a>
+        <a href="#skills" onclick="toggleMobileMenu()" class="px-4 py-3 rounded-xl hover:bg-theme-bg hover:text-theme-coral transition-colors">Năng lực</a>
+        <a href="#portfolio" onclick="toggleMobileMenu()" class="px-4 py-3 rounded-xl hover:bg-theme-bg hover:text-theme-coral transition-colors">Sản phẩm</a>
+        <a href="#contact" onclick="toggleMobileMenu()" class="px-4 py-3 rounded-xl hover:bg-theme-bg hover:text-theme-coral transition-colors">Liên hệ</a>
+    </div>
 
     <!-- 1. HERO SECTION (Directly matching the reference image) -->
     <section class="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-12">
@@ -147,12 +183,12 @@
             <div class="bg-theme-coral rounded-[2.5rem] md:rounded-[4rem] w-full min-h-[500px] lg:h-[550px] relative z-0 p-8 md:p-12 flex flex-col lg:flex-row justify-between items-start lg:items-center shadow-2xl">
 
                 <!-- Left Side Content (Intro) -->
-                <div class="w-full lg:w-[35%] text-white relative z-20 pt-16 lg:pt-0">
+                <div class="w-full lg:w-[35%] text-white relative z-20 pt-16 lg:pt-0 text-center lg:text-left">
                     <p class="text-white/80 font-bold uppercase tracking-widest text-xs mb-3">Ứng viên Brand Marketing</p>
                     <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
                         Khác biệt bằng<br>Tư duy chiến lược.
                     </h1>
-                    <p class="text-white/90 text-sm font-medium mb-8 leading-relaxed max-w-sm">
+                    <p class="text-white/90 text-sm font-medium mb-8 leading-relaxed max-w-sm mx-auto lg:mx-0">
                         Đam mê xây dựng thương hiệu. Khao khát tạo ra giá trị tích cực cho cộng đồng. Sẵn sàng bứt phá tại <strong>Unilever Vietnam</strong>.
                     </p>
                     <a href="#about" class="inline-flex items-center gap-2 bg-white text-theme-coral px-6 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors">
@@ -161,7 +197,7 @@
                 </div>
 
                 <!-- Right Side Content (Mini Cards & Badges) -->
-                <div class="w-full lg:w-[30%] relative z-20 flex flex-col items-end gap-8 mt-12 lg:mt-0">
+                <div class="w-full lg:w-[30%] relative z-20 flex flex-col items-center lg:items-end gap-8 mt-12 lg:mt-0">
                     
                     <!-- Top Icons (Future, Unique, Limited) -->
                     <div class="flex gap-6 text-white text-center">
@@ -494,6 +530,16 @@
         }
         window.addEventListener("scroll", reveal);
         reveal(); // Trigger on load
+
+        // Mobile nav (hamburger toggle)
+        function toggleMobileMenu() {
+            var menu = document.getElementById("mobile-menu");
+            var icon = document.getElementById("mobile-menu-icon");
+            var isOpen = menu.classList.contains("flex");
+            menu.classList.toggle("flex", !isOpen);
+            menu.classList.toggle("hidden", isOpen);
+            icon.className = isOpen ? "ph-bold ph-list" : "ph-bold ph-x";
+        }
 
         // Lightbox for award images (click a "Bảng Vàng" entry to view the full-size original)
         function openLightbox(src, alt) {
