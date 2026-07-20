@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nguyễn Thị Trúc Hương | Portrait Photographer</title>
+    <meta name="description" content="Nguyễn Thị Trúc Hương - Portrait Photographer. Nhiếp ảnh chân dung phong cách tự nhiên, tập trung vào cảm xúc và ánh sáng, với các bộ ảnh Japanese-Inspired, Romantic, Golden Hour và Vietnamese Traditional.">
+    <meta name="theme-color" content="#4A0808">
+
+    <!-- Favicon / app icons -->
+    <link rel="icon" href="images/favicon.svg" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.svg">
+    <!-- Open Graph (Facebook, Zalo, and most link-preview scrapers read these) -->
+    <meta property="og:type" content="profile">
+    <meta property="og:site_name" content="Nguyễn Thị Trúc Hương Portfolio">
+    <meta property="og:title" content="Nguyễn Thị Trúc Hương | Portrait Photographer">
+    <meta property="og:description" content="Nhiếp ảnh chân dung phong cách tự nhiên, tập trung vào cảm xúc và ánh sáng. Khám phá các bộ ảnh Japanese-Inspired, Romantic, Golden Hour và Vietnamese Traditional.">
+    <!-- TODO: cập nhật lại og:url và og:image bằng domain thật sau khi deploy -->
+    <meta property="og:image" content="images/favicon.svg">
+    <meta property="og:locale" content="vi_VN">
+
+    <!-- Twitter Card (falls back to Open Graph tags above if omitted, but explicit is safer) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Nguyễn Thị Trúc Hương | Portrait Photographer">
+    <meta name="twitter:description" content="Nhiếp ảnh chân dung phong cách tự nhiên, tập trung vào cảm xúc và ánh sáng.">
+    <meta name="twitter:image" content="images/apple-touch-icon.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Outfit:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Outfit', 'sans-serif'],
+                        cursive: ['Italianno', 'cursive'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#4A0808',
+                            dark: '#2C0303',
+                            gold: '#D4AF37',
+                            tab1: '#8A9ACA',
+                            tab2: '#592A22',
+                            tab3: '#7293A1',
+                            tab4: '#2E2221',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #4A0808;
+            color: #F9F6F0;
+            overflow-x: hidden;
+        }
+
+        /* ===== Custom Scrollbar ===== */
+        html { scrollbar-width: thin; scrollbar-color: #D4AF37 #2C0303; }
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track {
+            background: #2C0303;
+            border-left: 1px solid rgba(212,175,55,0.15);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #D4AF37, #8a6d1f);
+            border-radius: 10px;
+            border: 2px solid #2C0303;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #F9E5B8, #D4AF37);
+        }
+
+        .noise-bg {
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+            pointer-events: none;
+            mix-blend-mode: overlay;
+            z-index: 9999;
+        }
+
+        .vignette {
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.5) 100%);
+        }
+
+        .text-outline {
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(255,255,255,0.9);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* ===== HỆ THỐNG THƯ MỤC (ACCORDION) — kiến trúc tab-row + panel ===== */
+        #projects-container {
+            width: 100%;
+            border-radius: 20px;
+            background-color: #310505;
+            box-shadow: inset 0 10px 30px rgba(0,0,0,0.5);
+            padding: 14px;
+        }
+
+        /* Hàng tab: 4 ngăn hồ sơ xếp cạnh nhau */
+        .tab-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .folder-tab {
+            height: 48px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.25);
+            transition: transform 0.25s ease, opacity 0.25s ease;
+            font-weight: bold;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            font-size: 11px;
+            padding: 0 6px;
+            overflow: hidden;
+            white-space: nowrap;
+            gap: 4px;
+            transform: translateY(6px);
+            opacity: 0.45; /* tab chưa mở mờ rõ, nhưng vẫn đúng màu panel */
+        }
+        .folder-tab:hover { opacity: 0.75; transform: translateY(2px); }
+        /* Tab active: khớp CHÍNH XÁC màu panel, không làm sáng/tối lệch */
+        .folder-tab.active { transform: translateY(0); opacity: 1; }
+        @media (min-width: 768px) {
+            .folder-tab { font-size: 16px; letter-spacing: 0.08em; }
+        }
+
+        /* Vùng nội dung: chỉ một panel hiển thị tại một thời điểm */
+        .panel-wrap {
+            position: relative;
+            border-radius: 0 0 16px 16px;
+            overflow: hidden;
+        }
+
+        .panel {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.55s cubic-bezier(0.25, 1, 0.3, 1);
+        }
+        .panel.active {
+            grid-template-rows: 1fr;
+        }
+        .panel-inner {
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .panel-content {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+        }
+        .panel.active .panel-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .triptych {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            height: 400px;
+        }
+        .triptych img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        @media (max-width: 767px) {
+            .triptych { height: auto; grid-template-columns: 1fr; }
+            .triptych img { height: 240px; }
+        }
+
+        /* ===== NÂNG CẤP: Thanh tiến trình cuộn ===== */
+        #scroll-progress {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            width: 0%;
+            background: linear-gradient(90deg, #D4AF37, #F9E5B8);
+            z-index: 10000;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 10px rgba(212,175,55,0.6);
+        }
+
+        /* ===== NÂNG CẤP: Scroll reveal ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+            will-change: opacity, transform;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
+        }
+
+        /* ===== NÂNG CẤP: Nút back-to-top ===== */
+        #back-to-top {
+            position: fixed;
+            bottom: 28px; right: 28px;
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            background: rgba(212,175,55,0.9);
+            color: #2C0303;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 9000;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px) scale(0.8);
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        #back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0) scale(1);
+        }
+        #back-to-top:hover { background: #D4AF37; transform: translateY(-3px) scale(1.05); }
+
+        /* ===== NÂNG CẤP: Navbar nền khi cuộn ===== */
+        #main-nav {
+            transition: background-color 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease;
+        }
+        #main-nav.scrolled {
+            background-color: rgba(30, 3, 3, 0.55);
+            backdrop-filter: blur(10px);
+            mix-blend-mode: normal;
+        }
+
+        /* ===== NÂNG CẤP: Hover phóng nhẹ cho ảnh dự án ===== */
+        .panel-content img { transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), filter 0.5s ease; }
+
+        /* Nút cuộn xuống ở hero */
+        .scroll-hint {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* ===== NÂNG CẤP: Lightbox xem ảnh ===== */
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 2, 2, 0.92);
+            backdrop-filter: blur(6px);
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+            padding: 24px;
+        }
+        #lightbox.show { opacity: 1; pointer-events: auto; }
+        #lightbox img {
+            max-width: 90vw;
+            max-height: 88vh;
+            border-radius: 14px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+            transform: scale(0.92);
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+            border: 1px solid rgba(212,175,55,0.3);
+        }
+        #lightbox.show img { transform: scale(1); }
+        #lightbox .lb-close {
+            position: absolute;
+            top: 24px; right: 28px;
+            color: #D4AF37;
+            font-size: 34px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        #lightbox .lb-close:hover { transform: rotate(90deg) scale(1.1); }
+        .panel-content img { cursor: zoom-in; }
+        .triptych img, .panel-content img:hover { filter: brightness(1.05); }
+
+        /* ===== NÂNG CẤP: Con trỏ phát sáng ở hero ===== */
+        #cursor-glow {
+            position: fixed;
+            width: 340px; height: 340px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212,175,55,0.18) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 15;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            mix-blend-mode: screen;
+        }
+    </style>
+</head>
+<body class="selection:bg-brand-gold selection:text-brand-dark">
+
+    <div class="noise-bg"></div>
+    <div id="scroll-progress"></div>
+
+    <!-- NAVBAR -->
+    <nav id="main-nav" class="fixed top-0 left-0 w-full z-50 mix-blend-difference text-white p-6 flex justify-between items-center text-sm md:text-base font-serif italic tracking-wider">
+        <div class="flex gap-6 md:gap-12 underline underline-offset-4 decoration-1">
+            <a href="#about" class="hover:text-brand-gold transition-colors">About me</a>
+            <a href="#gear" class="hover:text-brand-gold transition-colors">My gear</a>
+            <a href="#projects" class="hover:text-brand-gold transition-colors">My projects</a>
+        </div>
+        <div class="hidden md:block">
+            www.Portfolio.com
+        </div>
+    </nav>
+
+    <!-- 1. HERO SECTION -->
+    <section class="relative h-screen w-full flex items-center justify-center vignette">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full text-center z-10 pointer-events-none">
+            <h1 class="font-serif font-black text-[15vw] leading-[0.8] tracking-tighter text-white">
+                PORT<span class="text-outline">FOLIO</span>
+            </h1>
+            <div class="absolute top-[50%] right-[10%] font-cursive text-[12vw] text-brand-gold leading-none transform -rotate-6 opacity-80 drop-shadow-lg">
+                2026
+            </div>
+        </div>
+
+        <img src="https://images.unsplash.com/photo-1514315384763-ba401779410f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="" class="relative z-20 h-[80vh] object-cover object-top drop-shadow-2xl" style="-webkit-mask-image: linear-gradient(to top, black 85%, transparent 100%);">
+
+        <div class="absolute bottom-32 md:bottom-12 left-8 md:left-16 z-30">
+            <p class="font-cursive text-4xl md:text-7xl text-white mb-[-10px] transform -rotate-3">Portrait</p>
+            <h2 class="font-serif font-black text-4xl md:text-7xl leading-[0.9] text-white uppercase">
+                PHOTO<br>GRAPHER
+            </h2>
+        </div>
+
+        <div class="absolute bottom-8 md:bottom-12 right-8 md:right-16 z-30">
+            <div class="border border-white/50 rounded-full px-4 py-1.5 md:px-6 md:py-2 glass hover:bg-white/20 transition-colors">
+                <span class="font-sans font-medium text-sm md:text-lg tracking-wide">Nguyễn Thị Trúc Hương</span>
+            </div>
+        </div>
+
+        <!-- Gợi ý cuộn xuống -->
+        <a href="#about" class="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 text-white/70 hover:text-brand-gold transition-colors scroll-hint hidden md:block">
+            <i class="ph ph-caret-double-down text-2xl"></i>
+        </a>
+    </section>
+
+    <!-- 2. ABOUT ME -->
+    <section id="about" class="py-24 px-6 md:px-16 vignette border-t border-white/10">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div class="relative flex justify-center reveal">
+                <div class="absolute inset-0 bg-white/20 rounded-full blur-[100px] z-0"></div>
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="" class="relative z-10 w-[80%] max-w-[400px] rounded-lg shadow-2xl">
+            </div>
+
+            <div class="reveal">
+                <h2 class="font-serif font-bold text-6xl md:text-8xl mb-8 tracking-tight">About me</h2>
+                <div class="font-sans text-gray-200 leading-relaxed mb-12 space-y-4 text-justify">
+                    <p>Xin chào, mình là Hương.</p>
+                    <p>Mình theo đuổi nhiếp ảnh chân dung với phong cách tự nhiên, tập trung vào cảm xúc và ánh sáng. Hiện tại mình chưa có kinh nghiệm làm việc thực tế trong môi trường studio, nhưng mình có kinh nghiệm chụp ảnh cá nhân và lifestyle, yêu thích việc tạo ra những bức ảnh chân thật, tinh tế và giàu cảm xúc.</p>
+                    <p>Mình luôn nỗ lực trau dồi kỹ năng để mang đến những bộ ảnh chỉn chu và phù hợp với từng khách hàng.</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8 font-sans">
+                    <div>
+                        <h3 class="font-serif font-bold text-2xl text-brand-gold mb-4">Software Skills</h3>
+                        <div class="flex gap-2">
+                            <div class="w-10 h-10 bg-[#31A8FF] rounded-lg flex items-center justify-center font-bold text-[#001E36]">Lr</div>
+                            <div class="w-10 h-10 bg-[#31A8FF] rounded-lg flex items-center justify-center font-bold text-[#001E36]">Ps</div>
+                            <div class="w-10 h-10 bg-black rounded-lg flex items-center justify-center text-white text-xl"><i class="ph-fill ph-scissors"></i></div>
+                            <div class="w-10 h-10 bg-gradient-to-tr from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white text-xl"><i class="ph-bold ph-p"></i></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-serif font-bold text-2xl text-brand-gold mb-4">Education</h3>
+                        <ul class="text-gray-200 space-y-1">
+                            <li>• 2024 - 2028</li>
+                            <li>University of Finance - Marketing</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-serif font-bold text-2xl text-brand-gold mb-4">Photography Skills</h3>
+                        <ul class="text-gray-200 space-y-1">
+                            <li>Portrait Photography</li>
+                            <li>Lighting</li>
+                            <li>Composition</li>
+                            <li>Posing Direction</li>
+                            <li>Workflow Management</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-serif font-bold text-2xl text-brand-gold mb-4">Language <span class="text-sm font-normal text-gray-400">[Communication]</span></h3>
+                        <ul class="text-gray-200 space-y-1">
+                            <li>85% VietNamese</li>
+                            <li>15% English</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. GEAR -->
+    <!-- SECTION 3: GEAR (Image 3) -->
+    <section id="gear" class="relative min-h-screen w-full bg-brand-maroonDark py-20 px-6 overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <!-- Title -->
+            <div class="mb-16 reveal">
+                <h2 class="font-serif font-black text-6xl md:text-[100px] leading-[0.9] uppercase text-white drop-shadow-2xl">
+                    Photography<br>Gear
+                </h2>
+            </div>
+
+            <!-- Main Layout -->
+            <div class="grid lg:grid-cols-12 gap-8 items-center reveal">
+                
+                <!-- Lenses (Left) -->
+                <div class="lg:col-span-4 flex flex-col items-center gap-8">
+                    <h3 class="font-sans text-2xl md:text-3xl text-gray-300 tracking-widest">Lens Nikon</h3>
+                    <div class="flex justify-center items-end gap-6 h-64 border-b border-white/20 pb-4 w-full">
+                        <!-- Mockup Lenses using icons/simple CSS since real 3D models aren't available -->
+                        <div class="text-center group cursor-pointer">
+                            <div class="w-20 h-32 bg-gradient-to-b from-gray-800 to-black rounded-sm border border-gray-700 shadow-xl mb-4 group-hover:-translate-y-2 transition-transform relative overflow-hidden">
+                                <div class="absolute top-2 w-full border-t-2 border-brand-gold opacity-50"></div>
+                            </div>
+                            <span class="font-sans text-gray-300">85mm</span>
+                        </div>
+                        <div class="text-center group cursor-pointer">
+                            <div class="w-16 h-20 bg-gradient-to-b from-gray-800 to-black rounded-sm border border-gray-700 shadow-xl mb-4 group-hover:-translate-y-2 transition-transform"></div>
+                            <span class="font-sans text-gray-300">50mm</span>
+                        </div>
+                        <div class="text-center group cursor-pointer">
+                            <div class="w-16 h-16 bg-gradient-to-b from-gray-800 to-black rounded-sm border border-gray-700 shadow-xl mb-4 group-hover:-translate-y-2 transition-transform"></div>
+                            <span class="font-sans text-gray-300">35mm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Camera Body (Right/Center) -->
+                <div class="lg:col-span-8 flex flex-col md:flex-row items-center justify-between relative">
+                    <h3 class="font-serif font-bold text-4xl md:text-5xl text-brand-gold absolute top-0 right-10 md:static mb-8 md:mb-0 z-10">Nikon D3200</h3>
+                    
+                    <!-- Camera Image Placeholder -->
+                    <div class="w-[80%] md:w-[600px] h-[400px] bg-[url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')] bg-contain bg-no-repeat bg-center mix-blend-luminosity filter contrast-125 hover:scale-105 transition-transform duration-700"></div>
+                </div>
+            </div>
+
+            <!-- Accessories (Bottom) -->
+            <div class="mt-20 flex flex-wrap items-center justify-center gap-8 md:gap-16 text-gray-300 font-sans reveal text-sm md:text-base">
+                <span class="flex items-center gap-2"><div class="w-2 h-2 bg-brand-gold rounded-full"></div> Accessories:</span>
+                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-gray-500 rounded-full"></div> Reflector</span>
+                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-gray-500 rounded-full"></div> Softbox mini</span>
+                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-gray-500 rounded-full"></div> Godox AD200</span>
+                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-gray-500 rounded-full"></div> Tripod</span>
+                <!-- Abstract icons representing accessories -->
+                <div class="flex gap-4 opacity-70">
+                    <i class="ph ph-camera-rotate text-3xl"></i>
+                    <i class="ph ph-aperture text-3xl"></i>
+                    <i class="ph ph-faders text-3xl"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 4. PROJECT FOLDERS (Interactive Accordion) -->
+    <section id="projects" class="py-20 px-4 md:px-12 bg-brand-dark flex flex-col items-center">
+
+        <div class="w-full max-w-6xl flex justify-between items-start mb-12 px-4">
+            <div class="relative">
+                <h2 class="font-serif font-black text-6xl md:text-[90px] text-white uppercase leading-[0.8] tracking-tighter drop-shadow-xl transform -rotate-2">
+                    RECAP<br>PROJECT
+                </h2>
+                <div class="font-cursive text-5xl md:text-7xl text-brand-gold transform -rotate-12 mt-[-10px] ml-16 md:ml-32">
+                    2025
+                </div>
+            </div>
+            <div class="hidden md:block text-right">
+                <h3 class="font-serif font-black text-4xl text-green-700 opacity-60 uppercase">MY PROJECT</h3>
+                <p class="font-sans text-sm text-gray-400">Click on any tab to explore</p>
+            </div>
+        </div>
+
+        <!-- BẢNG ĐIỀU KHIỂN FOLDERS -->
+        <div id="projects-container" class="max-w-6xl mx-auto reveal">
+
+            <!-- HÀNG TAB -->
+            <div class="tab-row">
+                <div class="folder-tab bg-brand-tab1 text-white" data-tab="0" onclick="openFolder(0)">
+                    <span class="hidden md:inline">01</span> JAPANESE
+                </div>
+                <div class="folder-tab bg-brand-tab2 text-white" data-tab="1" onclick="openFolder(1)">
+                    <span class="hidden md:inline">02</span> ROMANTIC
+                </div>
+                <div class="folder-tab bg-brand-tab3 text-white" data-tab="2" onclick="openFolder(2)">
+                    <span class="hidden md:inline">03</span> GOLDEN
+                </div>
+                <div class="folder-tab bg-brand-tab4 text-brand-gold" data-tab="3" onclick="openFolder(3)">
+                    <span class="hidden md:inline">04</span> TRADITION
+                </div>
+            </div>
+
+            <!-- VÙNG NỘI DUNG -->
+            <div class="panel-wrap">
+
+                <!-- PANEL 1: JAPANESE -->
+                <div class="panel" data-panel="0">
+                    <div class="panel-inner bg-brand-tab1 text-white">
+                        <div class="relative panel-content">
+                            <div class="p-8 md:p-12">
+                                <h2 class="font-serif font-bold text-5xl md:text-[70px] leading-[0.9] text-[#F9E5D9] mb-8">Japanese-Inspired<br>Portrait</h2>
+                                <div class="grid md:grid-cols-12 gap-8 items-center">
+                                    <div class="md:col-span-4">
+                                        <div class="glass p-6 rounded-2xl shadow-xl font-sans text-sm leading-relaxed text-justify">
+                                            <strong>Project Overview:</strong> Lấy cảm hứng từ phong cách Nhật Bản, bộ ảnh kết hợp trang phục nhẹ nhàng, ánh sáng tự nhiên và bố cục tối giản để tạo nên không gian thị giác thanh bình, trẻ trung. Dự án nhấn mạnh sự đơn giản, cảm xúc tinh tế và sự hài hòa trong màu sắc.
+                                            <div class="mt-6 text-xs opacity-80 text-right">
+                                                <p>Project Type: Personal Project</p>
+                                                <p>Location: Cong Vien LandMark, HCM</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="md:col-span-8 triptych">
+                                        <img src="https://images.unsplash.com/photo-1545912452-8aea7e25a3d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="" class="transform md:translate-y-4 hover:scale-105 transition-transform">
+                                        <img src="https://images.unsplash.com/photo-1514315384763-ba401779410f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="" class="transform md:-translate-y-4 hover:scale-105 transition-transform filter sepia-[0.2]">
+                                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="" class="transform md:translate-y-2 hover:scale-105 transition-transform">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL 2: ROMANTIC -->
+                <div class="panel" data-panel="1">
+                    <div class="panel-inner bg-brand-tab2 text-white">
+                        <div class="relative panel-content">
+                            <div class="p-8 md:p-12">
+                                <div class="flex flex-col md:flex-row w-full gap-2 md:h-[340px] mb-6">
+                                    <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="" class="w-full md:w-1/3 h-56 md:h-full object-cover rounded-2xl md:rounded-l-2xl md:rounded-r-none shadow-lg">
+                                    <img src="https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="" class="w-full md:w-1/3 h-56 md:h-full object-cover rounded-2xl md:rounded-none shadow-lg">
+                                    <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="" class="w-full md:w-1/3 h-56 md:h-full object-cover rounded-2xl md:rounded-r-2xl md:rounded-l-none shadow-lg">
+                                </div>
+
+                                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                                    <div>
+                                        <h2 class="font-serif font-black text-5xl md:text-[80px] leading-none mb-4">Romantic Portrait</h2>
+                                        <p class="font-sans text-sm max-w-3xl opacity-90 leading-relaxed text-justify">
+                                            Project Overview: Khai thác vẻ đẹp nhẹ nhàng và nữ tính thông qua ánh sáng tự nhiên, gam màu pastel và bối cảnh ven hồ. Dự án tập trung vào việc tạo cảm giác thư thái, thanh lịch và làm nổi bật biểu cảm tự nhiên của mẫu.
+                                        </p>
+                                    </div>
+                                    <div class="font-sans text-xs text-left md:text-right opacity-80 shrink-0 mb-2">
+                                        <p>Project Type: Client Project</p>
+                                        <p>Location: Cong Vien LandMark, HCM</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL 3: GOLDEN HOUR -->
+                <div class="panel" data-panel="2">
+                    <div class="panel-inner bg-brand-tab3 text-white">
+                        <div class="relative panel-content">
+                            <div class="p-8 md:p-12">
+                                <div class="grid md:grid-cols-12 gap-8 items-start">
+                                    <div class="md:col-span-4 flex flex-col gap-6">
+                                        <h2 class="font-serif font-bold text-6xl md:text-[70px] leading-[0.9] drop-shadow-md">Golden<br>Hour<br>Portrait</h2>
+                                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="" class="w-full h-48 object-cover rounded-2xl shadow-xl filter contrast-125 saturate-150">
+                                        <div class="bg-[#566B78] p-5 rounded-xl shadow-lg font-sans text-sm border border-white/20 text-justify">
+                                            Bộ ảnh được thực hiện vào thời điểm hoàng hôn nhằm khai thác ánh sáng tự nhiên và gam màu ấm.
+                                        </div>
+                                    </div>
+                                    <div class="md:col-span-4 flex flex-col gap-6 pt-0 md:pt-12">
+                                        <div class="bg-[#566B78] p-5 rounded-xl shadow-lg font-sans text-sm border border-white/20 text-justify">
+                                            Concept tập trung vào sự cân bằng giữa trang phục nổi bật và không gian ngoài trời, tạo nên những khung hình chân dung nhẹ nhàng nhưng vẫn có điểm nhấn.
+                                        </div>
+                                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="" class="w-full h-64 object-cover rounded-2xl shadow-xl filter contrast-125 saturate-150">
+                                    </div>
+                                    <div class="md:col-span-4">
+                                        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="" class="w-full h-full min-h-[300px] md:min-h-[400px] object-cover rounded-2xl shadow-xl filter contrast-125 saturate-150">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL 4: TRADITIONAL -->
+                <div class="panel" data-panel="3">
+                    <div class="panel-inner bg-brand-tab4 text-brand-gold">
+                        <div class="relative panel-content">
+                            <div class="p-8 md:p-12 flex flex-col items-center">
+                                <h2 class="font-serif font-black text-5xl md:text-[70px] mb-4 text-center tracking-tight text-[#E0C097]">Vietnamese Traditional</h2>
+                                <p class="font-sans text-sm text-gray-300 max-w-3xl text-center mb-8">
+                                    Dự án tập trung khai thác ánh sáng tự nhiên, trang phục truyền thống và cảm xúc nhẹ nhàng của nhân vật nhằm tạo nên những bức chân dung mang tính hoài niệm.
+                                </p>
+
+                                <div class="w-full triptych md:h-[350px] relative overflow-hidden rounded-2xl border border-gray-700 bg-[#1e1514] p-2 gap-2 shadow-2xl">
+                                    <div class="absolute inset-0 opacity-[0.05] flex flex-col justify-center items-center font-serif text-[12px] text-center pointer-events-none text-brand-gold uppercase leading-loose">
+                                        Nam quốc sơn hà Nam đế cư<br>Tiệt nhiên định phận tại thiên thư<br>Như hà nghịch lỗ lai xâm phạm<br>Nhữ đẳng hành khan thủ bại hư
+                                    </div>
+                                    <img src="https://images.unsplash.com/photo-1615874959474-d609969a20ed?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="" class="filter brightness-90 sepia-[0.3] relative z-10 hover:brightness-110 transition-all">
+                                    <img src="https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="" class="filter brightness-90 sepia-[0.3] relative z-10 hover:brightness-110 transition-all">
+                                    <img src="https://images.unsplash.com/photo-1617469767053-d3b523a0b982?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="" class="filter brightness-90 sepia-[0.3] relative z-10 hover:brightness-110 transition-all">
+                                </div>
+
+                                <div class="w-full flex justify-between mt-4 font-sans text-xs text-gray-400">
+                                    <p>Project Type: Personal Project</p>
+                                    <p>Location: Den Hung, Quan 9, HCM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. CONTACT -->
+    <section id="contact" class="bg-[#2C0303] py-24 px-6 md:px-16 overflow-hidden">
+        <div class="max-w-6xl mx-auto relative">
+
+            <div class="relative z-10 mb-6 md:mb-8 pl-4 md:pl-10">
+                <p class="font-cursive text-5xl md:text-7xl text-white transform -rotate-3 mb-[-20px]">Portrait</p>
+                <h2 class="font-serif font-black text-4xl sm:text-6xl md:text-[120px] leading-[0.9] text-white tracking-tighter">
+                    PHOTOGRAPHER
+                </h2>
+            </div>
+
+            <div class="bg-[#3B0707] rounded-[2rem] p-8 md:p-16 border border-red-900/50 flex flex-col md:flex-row gap-12 shadow-2xl relative z-20 reveal">
+
+                <div class="md:w-1/3 flex justify-center md:justify-start">
+                    <div class="w-64 h-80 bg-white p-3 rounded-2xl shadow-xl transform -rotate-3 hover:rotate-0 transition-transform">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                </div>
+
+                <div class="md:w-2/3 flex flex-col justify-center text-white">
+                    <p class="font-sans text-sm leading-relaxed mb-8 text-gray-300 text-justify">
+                        Mỗi bức chân dung là một câu chuyện và mỗi khung hình là một khoảnh khắc đáng nhớ. Cảm ơn bạn đã xem portfolio của tôi. Hy vọng những tác phẩm này đã thể hiện được niềm đam mê và góc nhìn của tôi trong nhiếp ảnh chân dung. Tôi mong sẽ có cơ hội đồng hành cùng bạn để lưu giữ những khoảnh khắc và câu chuyện ý nghĩa trong tương lai.
+                    </p>
+
+                    <h3 class="font-serif font-bold text-4xl md:text-5xl mb-6">Let's work together</h3>
+                    <p class="font-serif text-2xl text-brand-gold mb-6 border-b border-white/20 pb-4">Contact Me</p>
+
+                    <ul class="font-sans text-sm md:text-base space-y-4">
+                        <li class="flex items-center gap-4 hover:text-brand-gold transition-colors">
+                            <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center shrink-0"><i class="ph ph-phone text-xl"></i></div>
+                            <a href="tel:0846206038">0846206038</a>
+                        </li>
+                        <li class="flex items-center gap-4 hover:text-brand-gold transition-colors">
+                            <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center shrink-0"><i class="ph ph-instagram-logo text-xl"></i></div>
+                            <a href="https://www.instagram.com/noharanoc" target="_blank">https://www.instagram.com/noharanoc</a>
+                        </li>
+                        <li class="flex items-center gap-4 hover:text-brand-gold transition-colors">
+                            <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center shrink-0"><i class="ph ph-envelope-simple text-xl"></i></div>
+                            <a href="mailto:nguyenthitruchuong2006@gmail.com">nguyenthitruchuong2006@gmail.com</a>
+                        </li>
+                        <li class="flex items-center gap-4 hover:text-brand-gold transition-colors">
+                            <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center shrink-0"><i class="ph ph-facebook-logo text-xl"></i></div>
+                            <a href="#" target="_blank" class="truncate">https://www.facebook.com/linkfbcuatruchuong</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex justify-end mt-6 relative z-20">
+                <div class="border border-white/50 rounded-full px-6 py-2 text-white font-sans font-medium">
+                    Nguyễn Thị Trúc Hương
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- XỬ LÝ LOGIC ACCORDION FOLDERS -->
+    <script>
+        const tabs = document.querySelectorAll('.folder-tab');
+        const panels = document.querySelectorAll('.panel');
+        let activeFolder = 0;
+
+        function setActive(index) {
+            tabs.forEach((t, i) => t.classList.toggle('active', i === index));
+            panels.forEach((p, i) => p.classList.toggle('active', i === index));
+            activeFolder = index;
+        }
+
+        // Luôn có đúng 1 folder mở; bấm tab chỉ để chuyển, không đóng được
+        function openFolder(index) {
+            if (activeFolder === index) return;
+            setActive(index);
+        }
+
+        // Mở sẵn folder đầu tiên
+        window.addEventListener('load', () => setActive(0));
+    </script>
+
+    <!-- Nút back-to-top -->
+    <div id="back-to-top" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Lên đầu trang">
+        <i class="ph-bold ph-arrow-up"></i>
+    </div>
+
+    <!-- Lightbox xem ảnh -->
+    <div id="lightbox">
+        <span class="lb-close"><i class="ph-bold ph-x"></i></span>
+        <img src="" alt="Xem ảnh phóng to">
+    </div>
+
+    <!-- Con trỏ phát sáng ở hero -->
+    <div id="cursor-glow"></div>
+
+    <!-- NÂNG CẤP: progress bar, scroll reveal, navbar, back-to-top, parallax -->
+    <script>
+        const progressBar = document.getElementById('scroll-progress');
+        const nav = document.getElementById('main-nav');
+        const backTop = document.getElementById('back-to-top');
+        const heroImg = document.querySelector('section.vignette img');
+
+        function onScroll() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progressBar.style.width = pct + '%';
+
+            // Navbar đổi nền sau khi rời hero
+            if (scrollTop > window.innerHeight * 0.6) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+
+            // Nút back-to-top
+            if (scrollTop > 600) backTop.classList.add('show');
+            else backTop.classList.remove('show');
+
+            // Parallax nhẹ cho ảnh hero
+            if (heroImg && scrollTop < window.innerHeight) {
+                heroImg.style.transform = `translateY(${scrollTop * 0.15}px) scale(${1 + scrollTop * 0.0001})`;
+            }
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        // Scroll reveal bằng IntersectionObserver
+        const revealEls = document.querySelectorAll('.reveal');
+        if ('IntersectionObserver' in window) {
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            revealEls.forEach(el => io.observe(el));
+        } else {
+            revealEls.forEach(el => el.classList.add('visible'));
+        }
+
+        // Cuộn mượt cho các link trong navbar
+        document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ===== Lightbox: bấm ảnh dự án để xem lớn =====
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        document.querySelectorAll('.panel-content img').forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        function closeLightbox() {
+            lightbox.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        lightbox.addEventListener('click', closeLightbox);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // ===== Con trỏ phát sáng ở hero =====
+        const glow = document.getElementById('cursor-glow');
+        const hero = document.querySelector('section.vignette');
+        if (hero && window.matchMedia('(pointer: fine)').matches) {
+            hero.addEventListener('mousemove', (e) => {
+                glow.style.left = e.clientX + 'px';
+                glow.style.top = e.clientY + 'px';
+                glow.style.opacity = '1';
+            });
+            hero.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nguyễn Thị Trúc Hương | Portrait Photographer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Playfair Display for elegant Serif, Outfit for clean Sans-serif, Italianno for decorative cursive -->
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Outfit', 'sans-serif'],
+                        cursive: ['Italianno', 'cursive'],
+                    },
+                    colors: {
+                        brand: {
+                            maroon: '#4A0808', // Deep red background
+                            maroonDark: '#2C0303',
+                            gold: '#D4AF37',   // Gold accents
+                            lavender: '#9B9ABF', // Japanese project
+                            slate: '#6D8594',  // Golden hour project
+                            brown: '#3A2E2C',  // Traditional project
+                            cream: '#F9F6F0'
+                        }
+                    },
+                    boxShadow: {
+                        'glow': '0 0 80px 40px rgba(255,255,255,0.1)',
+                        'img': '5px 15px 30px rgba(0,0,0,0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #4A0808;
+            color: #F9F6F0;
+            overflow-x: hidden;
+        }
+
+        /* Subtle noise texture for vintage magazine feel */
+        .noise-bg {
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: overlay;
+        }
+
+        /* Vignette effect for red sections */
+        .vignette {
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.6) 100%);
+        }
+
+        /* Giant Text Outline */
+        .text-outline {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.8);
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.25, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #2C0303; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+        
+        /* Glassmorphism for Japanese Project */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+        }
+
+        /* Split images layout (Triptych) */
+        .triptych-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            height: 80vh;
+        }
+        .triptych-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.85);
+            transition: filter 0.4s;
+        }
+        .triptych-img:hover { filter: brightness(1.1); }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-brand-gold selection:text-brand-maroon">
+
+    <div class="noise-bg"></div>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 left-0 w-full z-50 mix-blend-difference text-white p-6 flex justify-between items-center text-sm md:text-base font-serif italic tracking-wider">
+        <div class="flex gap-6 md:gap-12 underline underline-offset-4 decoration-1">
+            <a href="#about" class="hover:text-brand-gold transition-colors">About me</a>
+            <a href="#gear" class="hover:text-brand-gold transition-colors">My gear</a>
+            <a href="#projects" class="hover:text-brand-gold transition-colors">My projects</a>
+        </div>
+        <div class="hidden md:block">
+            <a href="#" class="hover:text-brand-gold transition-colors">www.Portfolio.com</a>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: HERO (Image 1) -->
+    <section class="relative h-screen w-full bg-brand-maroon vignette overflow-hidden flex items-center justify-center">
+        
+        <!-- Background Massive Text -->
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full text-center z-10 pointer-events-none">
+            <h1 class="font-serif font-black text-[15vw] leading-[0.8] tracking-tighter text-white">
+                PORT<span class="text-outline">FOLIO</span>
+            </h1>
+            <div class="absolute top-[60%] right-[10%] font-cursive text-[12vw] text-brand-gold leading-none transform -rotate-6 opacity-80">
+                2026
+            </div>
+        </div>
+
+        <!-- Foreground Model Image (Cutout) -->
+        <!-- Note: Use a transparent PNG of yourself here for the overlap effect -->
+        <img src="https://images.unsplash.com/photo-1514315384763-ba401779410f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Trúc Hương" class="relative z-20 h-[85vh] object-cover object-top drop-shadow-2xl mt-20" style="-webkit-mask-image: linear-gradient(to top, black 90%, transparent 100%);">
+
+        <!-- Bottom Left Text -->
+        <div class="absolute bottom-12 left-8 md:left-16 z-30">
+            <p class="font-cursive text-5xl md:text-7xl text-white mb-[-10px] transform -rotate-3">Portrait</p>
+            <h2 class="font-serif font-black text-5xl md:text-7xl leading-[0.9] text-white uppercase">
+                Photo<br>Grapher
+            </h2>
+        </div>
+
+        <!-- Bottom Right Name Badge -->
+        <div class="absolute bottom-12 right-8 md:right-16 z-30">
+            <div class="border border-white/50 rounded-full px-6 py-2 backdrop-blur-md bg-white/10 hover:bg-white/20 transition-colors">
+                <span class="font-sans font-medium text-lg tracking-wide">Nguyễn Thị Trúc Hương</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: ABOUT ME (Image 2) -->
+    <section id="about" class="relative min-h-screen w-full bg-brand-maroon vignette py-20 px-6 md:px-20 flex items-center">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            
+            <!-- Left: Glowing Portrait -->
+            <div class="relative reveal flex justify-center">
+                <!-- Radial Glow -->
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/30 rounded-full blur-[80px] z-0"></div>
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="About Me" class="relative z-10 w-[80%] max-w-[400px] h-auto object-cover shadow-img rounded-sm">
+            </div>
+
+            <!-- Right: Info -->
+            <div class="text-white reveal" style="transition-delay: 0.2s;">
+                <h2 class="font-serif font-bold text-6xl md:text-8xl mb-8 tracking-tight">About me</h2>
+                <div class="font-sans font-light text-base md:text-lg leading-relaxed text-gray-200 mb-12 space-y-4">
+                    <p>Xin chào, mình là Hương.</p>
+                    <p>Mình theo đuổi nhiếp ảnh chân dung với phong cách tự nhiên, tập trung vào cảm xúc và ánh sáng. Hiện tại mình chưa có kinh nghiệm làm việc thực tế trong môi trường studio, nhưng mình có kinh nghiệm chụp ảnh cá nhân và lifestyle, yêu thích việc tạo ra những bức ảnh chân thật, tinh tế và giàu cảm xúc.</p>
+                    <p>Mình luôn nỗ lực trau dồi kỹ năng để mang đến những bộ ảnh chỉn chu và phù hợp với từng khách hàng.</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-10">
+                    <!-- Software -->
+                    <div>
+                        <h3 class="font-serif font-bold text-2xl text-brand-gold mb-4">Software Skills</h3>
+                        <div class="flex gap-3 text-3xl">
+                            <!-- Software icons using basic styling to mimic logos -->
+                            <div class="w-10 h-10 bg-[#31A8FF] rounded flex items-center justify-center text-sm font-bold text-[#001E36]">Lr</div>
+                            <div class="w-10 h-10 bg-[#31A8FF] rounded flex items-center justify-center text-sm font-bold text-[#001E36]">Ps</div>
+                            <div class="w-10 h-10 bg-black rounded flex items-center justify-center text-xl text-white"><i class="ph-fill ph-scissors"></i></div>
+                            <div class="w-10 h-10 bg-gradient-to-tr from-purple-500 to-pink-500 rounded flex items-center justify-center text-xl text-white">P</div>
+                        </div>
+                    </div>
+                    <!-- Education -->
+                    <div>
+                        <h3 class="font-serif font-bold text-2xl text-brand-gold mb-4">Education</h3>
+                        <ul class="font-sans font-light text-gray-200 list-disc list-inside">
+                            <li>2024 - 2028</li>
+                            <li class="list-none pl-4">University of Finance - Marketing</li>
+                        </ul>
+                    </div>
+                    <!-- Photo Skills -->
+                    <div>
+                        <h3 class="font-serif font-bold text-2xl text-brand-gold mb-4">Photography Skills</h3>
+                        <ul class="font-sans font-light text-gray-200 space-y-1">
+                            <li>Portrait Photography</li>
+                            <li>Lighting</li>
+                            <li>Composition</li>
+                            <li>Posing Direction</li>
+                            <li>Workflow Management</li>
+                        </ul>
+                    </div>
+                    <!-- Language -->
+                    <div>
+                        <h3 class="font-serif font-bold text-2xl text-brand-gold mb-4">Language <span class="text-sm font-normal">[Communication]</span></h3>
+                        <ul class="font-sans font-light text-gray-200 space-y-1">
+                            <li>85% VietNamese</li>
+                            <li>15% English</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: GEAR (Image 3) -->
+    <section id="gear" class="relative min-h-screen w-full bg-brand-maroonDark py-20 px-6 overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <!-- Title -->
+            <div class="mb-16 reveal">
+                <h2 class="font-serif font-black text-6xl md:text-[100px] leading-[0.9] uppercase text-white drop-shadow-2xl">
+                    Photography<br>Gear
+                </h2>
+            </div>
+
+            <!-- Main Layout -->
+            <div class="grid lg:grid-cols-12 gap-8 items-center reveal">
+                
+                <!-- Lenses (Left) -->
+                <div class="lg:col-span-4 flex flex-col items-center gap-8">
+                    <h3 class="font-sans text-2xl md:text-3xl text-gray-300 tracking-widest">Lens Nikon</h3>
+                    <div class="flex justify-center items-end gap-6 h-64 border-b border-white/20 pb-4 w-full">
+                        <!-- Mockup Lenses using icons/simple CSS since real 3D models aren't available -->
+                        <div class="text-center group cursor-pointer">
+                            <div class="w-20 h-32 bg-gradient-to-b from-gray-800 to-black rounded-sm border border-gray-700 shadow-xl mb-4 group-hover:-translate-y-2 transition-transform relative overflow-hidden">
+                                <div class="absolute top-2 w-full border-t-2 border-brand-gold opacity-50"></div>
+                            </div>
+                            <span class="font-sans text-gray-300">85mm</span>
+                        </div>
+                        <div class="text-center group cursor-pointer">
+                            <div class="w-16 h-20 bg-gradient-to-b from-gray-800 to-black rounded-sm border border-gray-700 shadow-xl mb-4 group-hover:-translate-y-2 transition-transform"></div>
+                            <span class="font-sans text-gray-300">50mm</span>
+                        </div>
+                        <div class="text-center group cursor-pointer">
+                            <div class="w-16 h-16 bg-gradient-to-b from-gray-800 to-black rounded-sm border border-gray-700 shadow-xl mb-4 group-hover:-translate-y-2 transition-transform"></div>
+                            <span class="font-sans text-gray-300">35mm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Camera Body (Right/Center) -->
+                <div class="lg:col-span-8 flex flex-col md:flex-row items-center justify-between relative">
+                    <h3 class="font-serif font-bold text-4xl md:text-5xl text-brand-gold absolute top-0 right-10 md:static mb-8 md:mb-0 z-10">Nikon D3200</h3>
+                    
+                    <!-- Camera Image Placeholder -->
+                    <div class="w-[80%] md:w-[600px] h-[400px] bg-[url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')] bg-contain bg-no-repeat bg-center mix-blend-luminosity filter contrast-125 hover:scale-105 transition-transform duration-700"></div>
+                </div>
+            </div>
+
+            <!-- Accessories (Bottom) -->
+            <div class="mt-20 flex flex-wrap items-center justify-center gap-8 md:gap-16 text-gray-300 font-sans reveal text-sm md:text-base">
+                <span class="flex items-center gap-2"><div class="w-2 h-2 bg-brand-gold rounded-full"></div> Accessories:</span>
+                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-gray-500 rounded-full"></div> Reflector</span>
+                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-gray-500 rounded-full"></div> Softbox mini</span>
+                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-gray-500 rounded-full"></div> Godox AD200</span>
+                <span class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-gray-500 rounded-full"></div> Tripod</span>
+                <!-- Abstract icons representing accessories -->
+                <div class="flex gap-4 opacity-70">
+                    <i class="ph ph-camera-rotate text-3xl"></i>
+                    <i class="ph ph-aperture text-3xl"></i>
+                    <i class="ph ph-faders text-3xl"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: FOLDER TABS (Image 4 - Navigation for projects) -->
+    <!-- Note: Designed as a sticky visual index to scroll down -->
+    <section id="projects" class="bg-brand-maroon py-16 border-y-8 border-brand-maroonDark">
+        <div class="max-w-7xl mx-auto px-6 reveal flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/3">
+                <h2 class="font-serif font-black text-6xl md:text-8xl leading-[0.9] text-white uppercase transform -rotate-2">
+                    RECAP<br>PROJECT
+                </h2>
+                <div class="font-cursive text-5xl text-brand-gold mt-[-20px] ml-20 transform -rotate-12">2025</div>
+            </div>
+            
+            <div class="md:w-2/3 flex flex-col gap-4">
+                <div class="text-right mb-4">
+                    <h3 class="font-serif font-black text-4xl text-green-800 uppercase tracking-widest">MY PROJECT</h3>
+                    <p class="font-sans text-xs text-gray-300">Click on any project to explore the full photo series</p>
+                </div>
+                <!-- Simulated Folder Tabs -->
+                <a href="#proj1" class="w-full bg-[#7C8BB4] text-brand-maroonDark p-4 rounded-r-2xl border-l-8 border-brand-maroonDark font-sans font-bold uppercase tracking-widest hover:pl-8 transition-all flex justify-between items-center shadow-lg">
+                    Project 01: Japanese-Inspired <i class="ph-bold ph-arrow-down"></i>
+                </a>
+                <a href="#proj2" class="w-full bg-[#5E2D26] text-white p-4 rounded-r-2xl border-l-8 border-brand-maroonDark font-sans font-bold uppercase tracking-widest hover:pl-8 transition-all flex justify-between items-center shadow-lg w-[95%] ml-[5%]">
+                    Project 02: Romantic Portrait <i class="ph-bold ph-arrow-down"></i>
+                </a>
+                <a href="#proj3" class="w-full bg-[#7595A3] text-brand-maroonDark p-4 rounded-r-2xl border-l-8 border-brand-maroonDark font-sans font-bold uppercase tracking-widest hover:pl-8 transition-all flex justify-between items-center shadow-lg w-[90%] ml-[10%]">
+                    Project 03: Golden Hour <i class="ph-bold ph-arrow-down"></i>
+                </a>
+                <a href="#proj4" class="w-full bg-[#3A2E2C] text-brand-gold p-4 rounded-r-2xl border-l-8 border-brand-maroonDark font-sans font-bold uppercase tracking-widest hover:pl-8 transition-all flex justify-between items-center shadow-lg w-[85%] ml-[15%]">
+                    Project 04: Traditional <i class="ph-bold ph-arrow-down"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: PROJECT 01 - JAPANESE (Image 5) -->
+    <section id="proj1" class="min-h-screen bg-brand-lavender py-20 px-6 flex flex-col justify-center">
+        <div class="max-w-7xl mx-auto w-full">
+            <!-- Title -->
+            <div class="mb-12 reveal relative z-10">
+                <h2 class="font-serif font-bold text-5xl md:text-[80px] leading-[0.9] text-[#F9E5D9] tracking-tight drop-shadow-lg">
+                    Japanese-Inspired<br>Portrait
+                </h2>
+            </div>
+
+            <!-- Bento Layout -->
+            <div class="grid md:grid-cols-12 gap-6 relative">
+                
+                <!-- Text Box -->
+                <div class="md:col-span-4 flex flex-col justify-end reveal order-2 md:order-1">
+                    <div class="glass-panel p-6 md:p-8 text-white font-sans text-sm leading-relaxed shadow-lg">
+                        <p class="mb-6 text-justify">
+                            Project Overview: Lấy cảm hứng từ phong cách Nhật Bản, bộ ảnh kết hợp trang phục nhẹ nhàng, ánh sáng tự nhiên và bố cục tối giản để tạo nên không gian thị giác thanh bình, trẻ trung. Dự án nhấn mạnh sự đơn giản, cảm xúc tinh tế và sự hài hòa trong màu sắc.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Images (Glassmorphism frames) -->
+                <div class="md:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-4 reveal order-1 md:order-2">
+                    <div class="glass-panel p-2 transform rotate-2 hover:rotate-0 transition-transform h-64 md:h-96">
+                        <!-- Unsplash placeholder -->
+                        <img src="https://images.unsplash.com/photo-1545912452-8aea7e25a3d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Japanese Portrait 1" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                    <div class="glass-panel p-2 transform -rotate-2 hover:rotate-0 transition-transform h-72 md:h-[450px] -mt-10">
+                        <img src="https://images.unsplash.com/photo-1514315384763-ba401779410f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Japanese Portrait 2" class="w-full h-full object-cover rounded-xl filter sepia-[0.2]">
+                    </div>
+                    <div class="glass-panel p-2 transform rotate-3 hover:rotate-0 transition-transform h-64 md:h-96 hidden md:block">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Japanese Portrait 3" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Details -->
+            <div class="mt-8 text-right font-sans text-white text-sm reveal">
+                <p>Project Type: Personal Project</p>
+                <p>Location: Cong Vien LandMark, HCM</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: PROJECT 02 - ROMANTIC (Image 6) -->
+    <section id="proj2" class="h-screen w-full relative overflow-hidden bg-[#2a1a15]">
+        <!-- Full bleed Triptych Images -->
+        <div class="triptych-container w-full h-full">
+            <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="triptych-img" alt="Romantic 1">
+            <img src="https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="triptych-img" alt="Romantic 2">
+            <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="triptych-img" alt="Romantic 3">
+        </div>
+
+        <!-- Text Overlay Banner -->
+        <div class="absolute bottom-0 left-0 w-full bg-[#3b211a]/90 backdrop-blur-sm p-8 md:p-12 text-[#F9F6F0] reveal border-t border-white/10">
+            <h2 class="font-serif font-black text-5xl md:text-[100px] leading-none mb-6 drop-shadow-xl tracking-tight">
+                Romantic Portrait
+            </h2>
+            <div class="flex flex-col md:flex-row justify-between items-end gap-6">
+                <p class="font-sans text-sm md:text-base max-w-2xl text-justify">
+                    Project Overview: Khai thác vẻ đẹp nhẹ nhàng và nữ tính thông qua ánh sáng tự nhiên, gam màu pastel và bối cảnh ven hồ. Dự án tập trung vào việc tạo cảm giác thư thái, thanh lịch và làm nổi bật biểu cảm tự nhiên của mẫu.
+                </p>
+                <div class="font-sans text-xs md:text-sm text-right opacity-80 shrink-0">
+                    <p>Project Type: Client Project</p>
+                    <p>Location: Cong Vien LandMark, HCM</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7: PROJECT 03 - GOLDEN HOUR (Image 7) -->
+    <section id="proj3" class="min-h-screen bg-brand-slate py-20 px-6 flex flex-col justify-center border-t-4 border-white/20">
+        <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-12 gap-8">
+            
+            <!-- Title Column -->
+            <div class="lg:col-span-3 reveal relative z-20">
+                <h2 class="font-serif font-bold text-6xl md:text-7xl leading-[0.9] text-white drop-shadow-lg mb-8">
+                    Golden<br>Hour<br>Portrait
+                </h2>
+                
+                <!-- Text block -->
+                <div class="bg-[#566B78] p-6 rounded-xl shadow-lg text-white font-sans text-sm text-justify border border-white/10">
+                    Bộ ảnh được thực hiện vào thời điểm hoàng hôn nhằm khai thác ánh sáng tự nhiên và gam màu ấm.
+                </div>
+            </div>
+
+            <!-- Masonry Image Grid -->
+            <div class="lg:col-span-9 grid grid-cols-2 md:grid-cols-3 gap-6 relative">
+                <!-- Image 1 -->
+                <div class="reveal">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Golden 1" class="w-full h-64 object-cover rounded-xl shadow-img filter contrast-125 saturate-150">
+                    <!-- Second text block -->
+                    <div class="bg-[#566B78] p-6 rounded-xl shadow-lg text-white font-sans text-sm text-justify border border-white/10 mt-6">
+                        Concept tập trung vào sự cân bằng giữa trang phục nổi bật và không gian ngoài trời, tạo nên những khung hình chân dung nhẹ nhàng nhưng vẫn có điểm nhấn.
+                    </div>
+                </div>
+
+                <!-- Image 2 -->
+                <div class="reveal" style="transition-delay: 0.1s;">
+                    <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Golden 2" class="w-full h-[500px] object-cover rounded-xl shadow-img filter contrast-125 saturate-150">
+                </div>
+
+                <!-- Image 3 (Large) -->
+                <div class="col-span-2 md:col-span-1 reveal" style="transition-delay: 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Golden 3" class="w-full h-full min-h-[500px] object-cover rounded-xl shadow-img filter contrast-125 saturate-150">
+                    
+                    <div class="mt-4 text-right font-sans text-white text-xs opacity-80">
+                        <p>Project Type: Personal Project</p>
+                        <p>Location: Cong Vien LandMark, HCM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 8: PROJECT 04 - TRADITIONAL (Image 8 Top) -->
+    <section id="proj4" class="py-20 bg-brand-brown px-6">
+        <div class="max-w-7xl mx-auto text-center reveal">
+            <!-- Title -->
+            <h2 class="font-serif font-black text-5xl md:text-[80px] text-[#E0C097] tracking-tight mb-4">
+                Vietnamese Traditional
+            </h2>
+            <p class="font-sans text-sm text-gray-300 max-w-3xl mx-auto mb-12">
+                Dự án tập trung khai thác ánh sáng tự nhiên, trang phục truyền thống và cảm xúc nhẹ nhàng của nhân vật nhằm tạo nên những bức chân dung mang tính hoài niệm.
+            </p>
+
+            <!-- Grid 3 images with dark vignette over text bg -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 h-[60vh] bg-[#2C2120] relative">
+                <!-- Faint text background pattern -->
+                <div class="absolute inset-0 opacity-10 flex flex-col justify-center items-center font-serif text-[8px] text-justify overflow-hidden pointer-events-none p-4 leading-tight text-[#E0C097]">
+                    Nam quốc sơn hà Nam đế cư<br>Tiệt nhiên định phận tại thiên thư<br>Như hà nghịch lỗ lai xâm phạm<br>Nhữ đẳng hành khan thủ bại hư... (Text pattern)
+                </div>
+                
+                <img src="https://images.unsplash.com/photo-1602492160682-14eb0acfc0df?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover filter brightness-90 sepia-[0.3] z-10" alt="Trad 1">
+                <img src="https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover filter brightness-90 sepia-[0.3] z-10" alt="Trad 2">
+                <img src="https://images.unsplash.com/photo-1617469767053-d3b523a0b982?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover filter brightness-90 sepia-[0.3] z-10" alt="Trad 3">
+            </div>
+
+            <div class="flex justify-between mt-4 font-sans text-xs text-[#E0C097]">
+                <p>Project Type: Personal Project</p>
+                <p>Location: Den Hung, Quan 9, HCM</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 9: CONTACT / FOOTER (Image 8 Bottom) -->
+    <section id="contact" class="bg-brand-maroonDark py-20 px-6 overflow-hidden">
+        <div class="max-w-6xl mx-auto relative reveal">
+            
+            <!-- Top massive text -->
+            <div class="relative z-10 mb-[-40px] md:mb-[-80px] pl-4 md:pl-10">
+                <p class="font-cursive text-5xl md:text-7xl text-white transform -rotate-3 mb-[-20px]">Portrait</p>
+                <h2 class="font-serif font-black text-6xl md:text-[130px] leading-[0.8] text-white tracking-tighter">
+                    PHOTOGRAPHER
+                </h2>
+            </div>
+
+            <!-- Content Card -->
+            <div class="bg-[#3B0707] rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 pt-24 md:pt-32 border border-red-900/30 flex flex-col md:flex-row gap-12 relative shadow-2xl">
+                
+                <!-- Left: Framed Photo -->
+                <div class="md:w-1/3 flex justify-center md:justify-start z-20">
+                    <div class="w-64 h-80 bg-white p-3 rounded-2xl shadow-xl transform -rotate-3 hover:rotate-0 transition-transform">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Trúc Hương Contact" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                </div>
+
+                <!-- Right: Text & Contact -->
+                <div class="md:w-2/3 flex flex-col justify-center text-white z-20">
+                    <p class="font-sans text-sm leading-relaxed mb-8 text-gray-300 text-justify">
+                        Mỗi bức chân dung là một câu chuyện và mỗi khung hình là một khoảnh khắc đáng nhớ. Cảm ơn bạn đã xem portfolio của tôi. Hy vọng những tác phẩm này đã thể hiện được niềm đam mê và góc nhìn của tôi trong nhiếp ảnh chân dung. Tôi mong sẽ có cơ hội đồng hành cùng bạn để lưu giữ những khoảnh khắc và câu chuyện ý nghĩa trong tương lai.
+                    </p>
+                    
+                    <h3 class="font-serif font-bold text-4xl md:text-5xl mb-6">Let's work together</h3>
+                    <p class="font-serif text-2xl text-brand-gold mb-6 border-b border-white/20 pb-4">Contact Me</p>
+
+                    <ul class="font-sans text-sm md:text-base space-y-5">
+                        <li class="flex items-center gap-4 hover:text-brand-gold transition-colors">
+                            <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center"><i class="ph ph-phone text-xl"></i></div>
+                            <a href="tel:0846206038">0846206038</a>
+                        </li>
+                        <li class="flex items-center gap-4 hover:text-brand-gold transition-colors">
+                            <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center"><i class="ph ph-instagram-logo text-xl"></i></div>
+                            <a href="#" target="_blank">https://www.instagram.com/noharanoc</a>
+                        </li>
+                        <li class="flex items-center gap-4 hover:text-brand-gold transition-colors">
+                            <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center"><i class="ph ph-envelope-simple text-xl"></i></div>
+                            <a href="mailto:nguyenthitruchuong2006@gmail.com">nguyenthitruchuong2006@gmail.com</a>
+                        </li>
+                        <li class="flex items-center gap-4 hover:text-brand-gold transition-colors">
+                            <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center"><i class="ph ph-facebook-logo text-xl"></i></div>
+                            <a href="#" target="_blank">https://www.facebook.com/linkfbcuatruchuong</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Right Name -->
+            <div class="flex justify-end mt-6">
+                <div class="border border-white/50 rounded-full px-6 py-2 bg-transparent text-white font-sans font-medium">
+                    Nguyễn Thị Trúc Hương
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts for Scroll Animation -->
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Trigger on load for elements already in view
+        reveal();
+    </script>
+</body>
+</html>
